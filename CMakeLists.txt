@@ -1,11 +1,11 @@
 ### YOU SHOULD EDIT THE BELOW WITH YOUR DETAILS AND FILES ###
 
-set(user1 itzikkobra)
-set(user2 heizenberg)
-set(user3 nevuhadnetzer)
-set(id1 "123456789")
-set(id2 "123456789")
-set(id3 "123456789")
+set(user1 dansheinin)
+set(user2 shukrun)
+set(user3 tomertub)
+set(id1 "204093124")
+set(id2 "204664205")
+set(id3 "301285896")
 set (SOURCE_FILES
 	file1.h
 	file1.cpp
