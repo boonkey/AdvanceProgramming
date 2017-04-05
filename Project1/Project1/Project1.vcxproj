@@ -110,10 +110,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IBattleshipGameAlgo.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data_types.h" />
     <ClInclude Include="IBattleshipGameAlgo.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
