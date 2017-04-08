@@ -3,7 +3,10 @@
 
 class Player : public IBattleshipGameAlgo {
 	Board PlayersBoard;
-	
+	//for ex1
+	vector<pair<int, int>> listOfAttacks;    // declares a vector of integers
+	vector<pair<int, int>>::iterator nextAttack = listOfAttacks.begin();
+	bool haveMoreAttacks = true;
 public:
 	//constructor
 	Player(int rows, int cols) :PlayersBoard(rows, cols) {}
@@ -17,11 +20,32 @@ public:
 			}
 		}
 	}
-	//virtual std::pair<int, int> attack() = 0;
+
+
+	//return next attack in the vector and advance the iterator
 	pair<int, int> attack() override{
-		return make_pair(1, 1);
-	};
-	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {}
+		if (haveMoreAttacks) {
+			if (nextAttack != listOfAttacks.end()) {
+				pair<int, int> attack = *nextAttack;
+				++nextAttack;
+				return attack;
+			} else {
+				haveMoreAttacks = false;
+				return *nextAttack;	//return last pair
+			}
+		} else{
+			return  make_pair(-1, -1);
+		}
+	}
+
+	void notifyOnAttackResult(int player, int row, int col, AttackResult result) override {
+		//on this exercise notify the player doesnt need to do anythinng. 
+		return;
+	}
 
 	void printBoard(){ PlayersBoard.print(); }
+	void setlistOfAttacks(vector<pair<int, int>> copy){
+		listOfAttacks = copy;
+	}
 };
+
