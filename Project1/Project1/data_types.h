@@ -75,6 +75,8 @@ public:
 	}
 };
 
-
-
-
+struct Configrutaion {
+	string workingDirectory;
+	string attackA, attackB, gameBoard;
+	Board playingBoard;
+};

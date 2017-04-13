@@ -115,12 +115,14 @@
     <ClCompile Include="fileParsing.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data_types.h" />
     <ClInclude Include="fileParsing.h" />
     <ClInclude Include="IBattleshipGameAlgo.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

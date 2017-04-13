@@ -1,11 +1,8 @@
-﻿  Main.cpp
-c:\users\dansh\dropbox\לימודים\advanceprogramming\project1\project1\data_types.h(64): warning C4018: '>=': signed/unsigned mismatch
-Main.cpp(19): warning C4129: 'c': unrecognized character escape sequence
-Main.cpp(23): warning C4129: 'c': unrecognized character escape sequence
+﻿  fileParsing.cpp
   Generating code
-  9 of 1123 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+  2 of 1247 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    32 functions had inline decision re-evaluated but remain unchanged
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.exe
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.pdb (Full PDB)
+  Project1.vcxproj -> C:\Users\dans\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.exe
+  Project1.vcxproj -> C:\Users\dans\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.pdb (Full PDB)

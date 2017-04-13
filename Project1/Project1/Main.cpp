@@ -1,19 +1,37 @@
 #include "main.h"
+#include "data_types.h"
 #include <regex>
+#include <cstdlib>
 
-int main()
+//struct Configuration config;
+
+int main(int argc, char* argv[])
 {
-	Board mainGameBoard(10, 10);
-	//TODO add file read and format checks (should be in fileParsing.cpp)
-	Player A(10, 10);
-	Player B(10, 10);
+	Board mainGameBoard(BOARD_SIZE, BOARD_SIZE);
+	//config.attackA = "hello";
+	initGame(argv[1]);
+	//system("pause");
+	//exit(0);
 
+	//TODO add file read and format checks (should be in fileParsing.cpp)
+	if (mainGameBoard.loadFromFile(argv[1])) {
+		perror("Failed to load from file");
+	//	exit(-7); //failed to read file
+	}
+	Player A(BOARD_SIZE, BOARD_SIZE);
+	Player B(BOARD_SIZE, BOARD_SIZE);
+	
+	string pathA = argv[1];
+	string pathB = argv[1];
+	pathA.append("\\clean_movesA.attack-a");
+	pathB.append("\\clean_movesB.attack-b");
 	//TODO fix unable to open file - change file name and location as needed
-	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(".\clean_movesA.attack-a");
+	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(pathA.c_str());
+	//system("pause");
 	if( A_attacks.second == 0 )	{ //functions ended as expected
 		A.setlistOfAttacks(A_attacks.first);
 	}
-	pair<vector<pair<int, int>>, int> B_attacks = parseAttackFile(".\clean_movesB.attack-b");
+	pair<vector<pair<int, int>>, int> B_attacks = parseAttackFile(pathB.c_str());
 	if (A_attacks.second == 0) { //functions ended as expected
 		A.setlistOfAttacks(A_attacks.first);
 	}
@@ -42,7 +60,6 @@ int main()
 //block the terminal for view
 	char* x="";
 	cin >> x;
-
 	return 0;
 }
 
