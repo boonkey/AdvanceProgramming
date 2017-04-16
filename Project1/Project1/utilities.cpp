@@ -1,5 +1,5 @@
+#pragma once
 #include "utilities.h"
-#include "data_types.h"
 
 vector<string> get_all_files_names_within_folder(string folder)
 {
@@ -33,11 +33,13 @@ int initGame(string path) {
 		size_t index = file.find(".attack-a");
 		if (index != string::npos) {
 			//load attack file for a
+			config.attackA = file;
 			cout << "I found A's attack file: " << file << endl;
 		}
 		index = file.find(".attack-b");
 		if (index != string::npos) {
 			//load attack file for b
+			config.attackB = file;
 			cout << "I found B's attack file: " << file << endl;
 		}
 		index = file.find(".sboard");

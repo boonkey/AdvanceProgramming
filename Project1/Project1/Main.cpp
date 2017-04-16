@@ -1,15 +1,16 @@
 #include "main.h"
-#include "data_types.h"
+//#include "data_types.h"
 #include <regex>
 #include <cstdlib>
 
-//struct Configuration config;
+
 
 int main(int argc, char* argv[])
 {
 	Board mainGameBoard(BOARD_SIZE, BOARD_SIZE);
-	//config.attackA = "hello";
+	config.attackA = "hello";
 	initGame(argv[1]);
+	cout << config.attackA << endl;
 	//system("pause");
 	//exit(0);
 

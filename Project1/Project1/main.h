@@ -8,4 +8,4 @@
 
 
 // ================= Global Variables ================
-//extern struct Configruation config;
+Configuration config;
