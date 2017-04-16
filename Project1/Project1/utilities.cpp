@@ -22,9 +22,9 @@ vector<string> get_all_files_names_within_folder(string folder)
 
 
 
-int initGame(string path) {
+int initGame() {
 	//get all files
-	vector<string> files = get_all_files_names_within_folder(path);
+	vector<string> files = get_all_files_names_within_folder(config.workingDirectory);
 	if (files.size() != 3) {
 		cout << "I only like 3 files in my folders" << endl;
 		return -1;
@@ -33,20 +33,20 @@ int initGame(string path) {
 		size_t index = file.find(".attack-a");
 		if (index != string::npos) {
 			//load attack file for a
-			config.attackA = file;
+			config.attackA = config.workingDirectory + "\\" + file;
 			cout << "I found A's attack file: " << file << endl;
 		}
 		index = file.find(".attack-b");
 		if (index != string::npos) {
 			//load attack file for b
-			config.attackB = file;
+			config.attackB = config.workingDirectory + "\\" + file;
 			cout << "I found B's attack file: " << file << endl;
 		}
 		index = file.find(".sboard");
 		if (index != string::npos) {
 			//load attack file for a
-			
-			cout << "I found the board file: " << file << endl;
+			config.pathBoard = config.workingDirectory + "\\" + file;
+			cout << "I found the board file: " << config.pathBoard << endl;
 		}
 	}
 

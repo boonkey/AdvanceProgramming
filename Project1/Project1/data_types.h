@@ -83,7 +83,7 @@ public:
 struct Configuration{
 	string workingDirectory;
 	string attackA, attackB, pathBoard;
-	//Board gameBoard;
+	//Board gameBoard(BOARD_SIZE,BOARD_SIZE);
 };
 
 #endif // !_CONFIGURATION

@@ -6,5 +6,5 @@
 #include "data_types.h"
 using namespace std;
 extern Configuration config;
-int initGame(string path);
+int initGame();
 vector<string> get_all_files_names_within_folder(string folder);
