@@ -1,3 +1,4 @@
+#pragma once
 #include "IBattleshipGameAlgo.h"
 #include "data_types.h"
 

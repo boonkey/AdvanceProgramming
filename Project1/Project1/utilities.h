@@ -3,8 +3,8 @@
 #include <string>
 #include <Windows.h>
 #include <vector>
-#include "main.h"
+#include "data_types.h"
 using namespace std;
-
-int initGame(string path);
+extern Configuration config;
+int initGame();
 vector<string> get_all_files_names_within_folder(string folder);

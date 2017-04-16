@@ -75,8 +75,15 @@ public:
 	}
 };
 
-struct Configrutaion {
+
+#ifndef _CONFIGURATION
+#define _CONFIGURATION
+
+
+struct Configuration{
 	string workingDirectory;
-	string attackA, attackB, gameBoard;
-	Board playingBoard;
+	string attackA, attackB, pathBoard;
+	//Board gameBoard(BOARD_SIZE,BOARD_SIZE);
 };
+
+#endif // !_CONFIGURATION

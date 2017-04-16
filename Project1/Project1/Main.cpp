@@ -1,39 +1,40 @@
 #include "main.h"
-#include "data_types.h"
+//#include "data_types.h"
 #include <regex>
 #include <cstdlib>
 
-//struct Configuration config;
+
 
 int main(int argc, char* argv[])
 {
 	Board mainGameBoard(BOARD_SIZE, BOARD_SIZE);
-	//config.attackA = "hello";
-	initGame(argv[1]);
+	config.workingDirectory = argv[1];
+	initGame();
+	cout << config.attackA << endl;
 	//system("pause");
 	//exit(0);
 
 	//TODO add file read and format checks (should be in fileParsing.cpp)
-	if (mainGameBoard.loadFromFile(argv[1])) {
+	if (mainGameBoard.loadFromFile(config.pathBoard)) {
 		perror("Failed to load from file");
-	//	exit(-7); //failed to read file
+		exit(-7); //failed to read file
 	}
 	Player A(BOARD_SIZE, BOARD_SIZE);
 	Player B(BOARD_SIZE, BOARD_SIZE);
 	
-	string pathA = argv[1];
+	/*string pathA = argv[1];
 	string pathB = argv[1];
 	pathA.append("\\clean_movesA.attack-a");
-	pathB.append("\\clean_movesB.attack-b");
+	pathB.append("\\clean_movesB.attack-b");*/
 	//TODO fix unable to open file - change file name and location as needed
-	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(pathA.c_str());
+	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(config.attackA);
 	//system("pause");
 	if( A_attacks.second == 0 )	{ //functions ended as expected
 		A.setlistOfAttacks(A_attacks.first);
 	}
-	pair<vector<pair<int, int>>, int> B_attacks = parseAttackFile(pathB.c_str());
-	if (A_attacks.second == 0) { //functions ended as expected
-		A.setlistOfAttacks(A_attacks.first);
+	pair<vector<pair<int, int>>, int> B_attacks = parseAttackFile(config.attackB);
+	if (B_attacks.second == 0) { //functions ended as expected
+		B.setlistOfAttacks(B_attacks.first);
 	}
 
 
@@ -49,7 +50,9 @@ int main(int argc, char* argv[])
 
 	//TODO change to send only A part of the board (same for B)
 	A.setBoard(mainGameBoard.getFullBoard(), 10, 10);
-	//B.setBoard(mainGameBoard.getFullBoard(), 10, 10);
+	A.printBoard();
+	B.setBoard(mainGameBoard.getFullBoard(), 10, 10);
+	B.printBoard();
 
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
