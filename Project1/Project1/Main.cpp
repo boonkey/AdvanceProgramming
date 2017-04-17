@@ -44,6 +44,21 @@ int main(int argc, char* argv[])
 	
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
+	int scoreA = 0;
+	int scoreB = 0;
+	Player* currentplayer = &A;
+	while(true){
+		
+
+
+
+
+		if(currentplayer == &A){
+			currentplayer = &B;
+		}else{
+			currentplayer = &A;
+		}
+	}
 
 
 
