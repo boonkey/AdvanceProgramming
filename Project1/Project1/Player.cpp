@@ -16,17 +16,12 @@ public:
 	~Player(){}
 	
 	void setBoard(const char** board, int numRows, int numCols) override{
-		cout << "setting board for player: (A?)" << isPlayerA << endl;
 		for (int i = 0; i < numCols; ++i) {
 			for (int j = 0; j < numRows; ++j) {
-				if (isupper(board[i][j]) != 0 && isPlayerA)
-					PlayersBoard.set(j + 1, i + 1, board[i][j]);
-				else if (islower(board[i][j]) != 0 && !isPlayerA)
-					PlayersBoard.set(j + 1, i + 1, board[i][j]);
-				else
-					PlayersBoard.set(j + 1, i + 1, ' ');
+				PlayersBoard.set(j + 1, i + 1, board[i][j]);
 			}
 		}
+	
 	}
 
 	void setSide(bool sideA) {

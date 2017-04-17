@@ -39,9 +39,9 @@ int main(int argc, char* argv[])
 	}
 
 
-	A.setBoard(mainGameBoard.getFullBoard(), 10, 10);
-	B.setBoard(mainGameBoard.getFullBoard(), 10, 10);
-
+	A.setBoard(mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
+	B.setBoard(mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
+	
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
 

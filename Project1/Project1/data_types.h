@@ -46,6 +46,7 @@ public:
 	bool isSideA() { return isupper(type) == 0; }
 
 
+
 	//puts a ship in place (position is set to true position on board. initialized to all parts alive
 	int putInPlace(vector<pair<int, int>> location) {
 		for (auto p : location) {
@@ -118,6 +119,24 @@ public:
 		return board[col - 1][row - 1]; 
 	}
 	const char** getFullBoard(){ return const_cast<const char **>(board) ; }
+	const char** getSidedBoard(bool sideA) {
+		char** sidedBoard = new char*[numOfCols];
+		for (int i = 0; i < numOfCols; ++i) {
+			sidedBoard[i] = new char[numOfRows];
+		}
+		//init to clear board
+		for (int i = 0; i < numOfCols; ++i) {
+			for (int j = 0; j < numOfRows; ++j) {
+				if (isupper(board[i][j]) != 0 && sideA)
+					sidedBoard[i][j] = board[i][j];
+				else if (islower(board[i][j]) != 0 && !sideA)
+					sidedBoard[i][j] = board[i][j];
+				else
+					sidedBoard[i][j] = ' ';
+			}
+		}
+		return const_cast<const char **> (sidedBoard);
+	}
 	void set(int col, int row, char c) { board[col - 1][row - 1] = c; }
 	void Board::print(){
 		for (int i = 0; i < numOfCols; i++) {
