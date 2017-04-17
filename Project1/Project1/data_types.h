@@ -45,7 +45,13 @@ public:
 	// returns true belongs to player A
 	bool isSideA() { return isupper(type) == 0; }
 
-
+	void print(){
+		cout << "type: " << type << " alive: " << alive << endl;
+		for (auto p : position){
+			cout << p.first.first << " , " << p.first.second << " # status: " << p.second;
+		}
+		cout << endl;
+	}
 
 	//puts a ship in place (position is set to true position on board. initialized to all parts alive
 	int putInPlace(vector<pair<int, int>> location) {
@@ -67,15 +73,31 @@ public:
 	//returns true iff attack hit the ship
 	bool checkAttack(pair<int, int> location) {
 		for (auto pos : position) {
-			if (location.first == pos.first.first && location.second == pos.first.second) {
+			if (location.first == pos.first.first && location.second == pos.first.second && pos.second == true) {
 				cout << "Ship was hit on " << location.first << "," << location.second << endl;
 				pos.second = false;
-				if (checkAlive())
+				if (checkAlive() == false)
 					cout << "ship is dead" << endl;
 				return true;
 			}
 		}
 		return false;
+	}
+
+	int getShipScore(){
+		if ((type == 'b') || (type == 'B')) {
+			return 2;
+		}
+		if ((type == 'p') || (type == 'P')) {
+			return 3;
+		}
+		if ((type == 'm') || (type == 'M')) {
+			return 7;
+		}
+		if( (type == 'd') || (type == 'D') ){
+			return 8;
+		}
+		return 0;
 	}
 
 };
@@ -87,9 +109,9 @@ class Board{
 	char** board;
 	int numOfRows;
 	int numOfCols;
-	vector<Ship> ships;
-
+	
 public:
+	vector<Ship> ships;
 	//constructor
 	Board(int rows, int cols) {
 		numOfRows = rows;
@@ -202,7 +224,8 @@ public:
 	//OUT: true if player has won
 	bool gameOver(bool sideA) {
 		for (auto ship : ships) {
-			if (ship.isSideA() == sideA && ship.checkAlive())
+			if ((ship.isSideA() == sideA) && ship.checkAlive())
+
 				return false;
 		}
 		return true;
