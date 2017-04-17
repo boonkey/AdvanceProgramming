@@ -7,9 +7,18 @@
 
 int main(int argc, char* argv[])
 {
+	int err;
 	Board mainGameBoard(BOARD_SIZE, BOARD_SIZE);
-	config.workingDirectory = argv[1];
-	initGame();
+	if (argc > 2) {
+		cout << "Error: too much arguments" << endl;
+		return ERR_WRONG_NUM_OF_ARGS;
+	}
+	if (argc == 2)
+		config.workingDirectory = argv[1];
+	else
+		config.workingDirectory = ".";
+	if ((err = initGame()))
+		return err;
 	cout << config.attackA << endl;
 	//system("pause");
 	//exit(0);
@@ -17,18 +26,14 @@ int main(int argc, char* argv[])
 	//TODO add file read and format checks (should be in fileParsing.cpp)
 	if (mainGameBoard.loadFromFile(config.pathBoard)) {
 		perror("Failed to load from file");
-		exit(-7); //failed to read file
+		return -999; //failed to read file
 	}
 	Player A(BOARD_SIZE, BOARD_SIZE);
 	Player B(BOARD_SIZE, BOARD_SIZE);
+	A.setSide(true);
 	
-	/*string pathA = argv[1];
-	string pathB = argv[1];
-	pathA.append("\\clean_movesA.attack-a");
-	pathB.append("\\clean_movesB.attack-b");*/
-	//TODO fix unable to open file - change file name and location as needed
 	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(config.attackA);
-	//system("pause");
+	
 	if( A_attacks.second == 0 )	{ //functions ended as expected
 		A.setlistOfAttacks(A_attacks.first);
 	}
@@ -38,20 +43,11 @@ int main(int argc, char* argv[])
 	}
 
 
-/*	examples to see the board is working
-	mainGameBoard.set(1, 2, 'c');
-	mainGameBoard.set(1, 1, 'x');
-	mainGameBoard.set(2, 2, 'c');
-	mainGameBoard.set(7, 2, 'c');
-	mainGameBoard.set(9, 6, 'p');
-	mainGameBoard.set(9, 9, 'x');
-	mainGameBoard.print();
-	*/
-
-	//TODO change to send only A part of the board (same for B)
 	A.setBoard(mainGameBoard.getFullBoard(), 10, 10);
+	cout << "-----[A board]-----" << endl;
 	A.printBoard();
 	B.setBoard(mainGameBoard.getFullBoard(), 10, 10);
+	cout << "-----[B board]-----" << endl;
 	B.printBoard();
 
 	//fill rest of game logic
