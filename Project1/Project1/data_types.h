@@ -137,7 +137,12 @@ public:
 		}
 		return const_cast<const char **> (sidedBoard);
 	}
-	void set(int col, int row, char c) { board[col - 1][row - 1] = c; }
+	int set(int col, int row, char c) { 
+		if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
+			return -1;
+		board[col - 1][row - 1] = c; 
+		return 0;
+	}
 	void Board::print(){
 		for (int i = 0; i < numOfCols; i++) {
 			for (int j = 0; j < numOfRows; j++) {
