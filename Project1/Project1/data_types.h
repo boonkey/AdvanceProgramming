@@ -20,7 +20,7 @@
 #define ERR_MISSING_ATTACKA   -8
 #define ERR_MISSING_ATTACKB   -9
 #define ERR_MISSING_SBOARD    -10
-
+#define ERR_LOADING_BOARD     -11
 
 using namespace std;
 

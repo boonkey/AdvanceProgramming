@@ -36,12 +36,16 @@ vector<string> get_all_files_names_within_folder(string folder)
 int initGame() {
 	//get all files
 	int err;
+
+	//check that path exists
 	if ((err = pathExist(config.workingDirectory)) != 0) {
 		cout << "Wrong path: " << config.workingDirectory << endl;
 		return err;
 	}
+
+	//get all files in folders
 	vector<string> files = get_all_files_names_within_folder(config.workingDirectory);
-	bool attackA = false, attackB = false, gameBoard = false;
+	bool attackA = false, attackB = false, gameBoard = false; 
 	for (auto &file : files) {
 		size_t index = file.find(".attack-a");
 		if (index != string::npos) {

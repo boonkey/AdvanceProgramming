@@ -1,5 +1,4 @@
 #include "main.h"
-//#include "data_types.h"
 #include <regex>
 #include <cstdlib>
 
@@ -20,13 +19,10 @@ int main(int argc, char* argv[])
 	if ((err = initGame()))
 		return err;
 	cout << config.attackA << endl;
-	//system("pause");
-	//exit(0);
-
-	//TODO add file read and format checks (should be in fileParsing.cpp)
+	
 	if (mainGameBoard.loadFromFile(config.pathBoard)) {
 		perror("Failed to load from file");
-		return -999; //failed to read file
+		return ERR_LOADING_BOARD; //failed to read file
 	}
 	Player A(BOARD_SIZE, BOARD_SIZE);
 	Player B(BOARD_SIZE, BOARD_SIZE);
@@ -44,17 +40,12 @@ int main(int argc, char* argv[])
 
 
 	A.setBoard(mainGameBoard.getFullBoard(), 10, 10);
-	cout << "-----[A board]-----" << endl;
-	A.printBoard();
 	B.setBoard(mainGameBoard.getFullBoard(), 10, 10);
-	cout << "-----[B board]-----" << endl;
-	B.printBoard();
 
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
 
 
-	//cout << "hello" << endl;
 
 //block the terminal for view
 	char* x="";
