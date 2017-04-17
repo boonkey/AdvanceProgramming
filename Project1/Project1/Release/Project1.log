@@ -1,9 +1,13 @@
-﻿  utilities.cpp
-c:\users\dansh\dropbox\לימודים\advanceprogramming\project1\project1\data_types.h(184): warning C4018: '>=': signed/unsigned mismatch
+﻿  Main.cpp
+e:\eeprojworkspace\advanceprogramming\project1\project1\data_types.h(206): warning C4018: '>=': signed/unsigned mismatch
+  Player.cpp
+e:\eeprojworkspace\advanceprogramming\project1\project1\data_types.h(206): warning C4018: '>=': signed/unsigned mismatch
+  utilities.cpp
+e:\eeprojworkspace\advanceprogramming\project1\project1\data_types.h(206): warning C4018: '>=': signed/unsigned mismatch
   Generating code
-  0 of 1298 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    84 functions had inline decision re-evaluated but remain unchanged
+  12 of 1373 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    26 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.exe
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\Release\Project1.pdb (Full PDB)
+  Project1.vcxproj -> E:\EEprojWorkspace\AdvanceProgramming\Project1\Release\Project1.exe
+  Project1.vcxproj -> E:\EEprojWorkspace\AdvanceProgramming\Project1\Release\Project1.pdb (Full PDB)
