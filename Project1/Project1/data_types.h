@@ -108,7 +108,7 @@ public:
 	}
 	//destructor
 	~Board() {
-		for (int i = 0; i < numOfCols; ++i) {
+		for (int i = 0; i < numOfCols; i++) {
 			delete[] board[i];
 		}
 		delete[] board;	

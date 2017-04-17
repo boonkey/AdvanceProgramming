@@ -104,6 +104,8 @@ int findShips(Board gameBoard) {
 	//define intermediate board AND result board
 	Board intermediateBoard(BOARD_SIZE, BOARD_SIZE);
 	intermediateBoard.copyBoard(gameBoard);
+	//intermediateBoard.~Board();
+	return 0;
 	char temp;
 	bool hasError = false;
 	vector<char> letters = { 'b','B','m','M','p','P','d','D' };
@@ -140,7 +142,8 @@ int findShips(Board gameBoard) {
 		if (warnings[type]) {
 			hasError = true;
 			if (isupper(type))
-				cout << "Wrong size or shape for ship " << type << " for player A" << endl;			if (islower(type))
+				cout << "Wrong size or shape for ship " << type << " for player A" << endl;
+			if (islower(type))
 				cout << "Wrong size or shape for ship " << type << " for player B" << endl;
 		}
 	//destroy intermediate board
@@ -172,7 +175,7 @@ int topLeftOfShip(Board gameBoard,Board *intermediateBoard, int i, int j) {
 			break;
 	}
 	if ((shiplen != 1) && (gameBoard.get(i + 1, j) == cmp_val))  vert = false; 
-	if (!verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen, vert, i, j)) {
+	if (!verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i, j)) {
 		cout << "ship is cool" << endl;
 		gameBoard.addShip(shipScan(cmp_val, vert, make_pair(i, j), shiplen));
 		return 0;
@@ -184,53 +187,65 @@ int topLeftOfShip(Board gameBoard,Board *intermediateBoard, int i, int j) {
 
 int verifyValidShape(Board gameBoard, Board* intermediateBoard, char cmp_val, int shiplen, bool vert, int i, int j) {
 	//valid ship=0, invalid =-1 and burn it
+	cout << "verifyValidShape: ship type: " << cmp_val << " location: <" << i << "," << j << "> shiplen: " << shiplen << " vert? " << vert << endl;
 	if (shiplen == 0)
 	{
+		cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard->get(i + 1, j) == cmp_val || \
 			(vert && intermediateBoard->get(i - 1, j) == cmp_val) || \
 			(!vert && intermediateBoard->get(i, j - 1) == cmp_val) || \
 			intermediateBoard->get(i, j + 1) == cmp_val)	//this needs a quick fix, figure out not to check both top and left, just one
 		{
+			cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, i, j, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
 		return 0;//success is reached, we are at len=0 and our ship fits exactly
 	}
-	if (shiplen >0) //still need to investigate the remaining (expected) length of the ship
+	if (shiplen > 0) //still need to investigate the remaining (expected) length of the ship
 	{
+		cout << "line: " << __LINE__ << endl;
 		if ((!vert && intermediateBoard->get(i + 1, j) != cmp_val) || \
 			(vert && intermediateBoard->get(i, j + 1) != cmp_val)) {//this means the ship is too short, expected more of the ship, yet there is nothing
+			cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, i, j, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
 	}
 
 	if (vert) {//should go down
+		cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard->get(i,j) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
+			cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, i, j - 1, intermediateBoard);
 			return -1;
 		}
 
 		if (intermediateBoard->get(i - 1, j) == cmp_val || intermediateBoard->get(i + 1, j) == cmp_val) {
+			cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, i, j, intermediateBoard);
-			return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i + 1, j));
+			return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i , j+1));
 		}
 
 	}
 	else {//now we should go right
+		cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard->get(i, j) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
+			cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, i - 1, j, intermediateBoard);
 			return -1;
 		}
-
 		if (intermediateBoard->get(i, j - 1) == cmp_val || intermediateBoard->get(i, j + 1) == cmp_val)
 		{
+			cout << "line: " << __LINE__ << endl;
+			intermediateBoard->print();
 			burnShip(cmp_val, i, j, intermediateBoard); 
 			return -1;
 		}
 		return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i + 1, j));
 	}
-
+	cout << "line: " << __LINE__ << endl;
+	return -66666;
 	//if (vert) {//should go down
 	//	if (cmp_val != 'o') {//the invalid value of escaping array bounds
 	//		if (intermediateBoard->get(i - 1, j) == cmp_val || intermediateBoard->get(i + 1, j) == cmp_val)//left and right are other ships, bcz we only go down
@@ -245,6 +260,7 @@ int verifyValidShape(Board gameBoard, Board* intermediateBoard, char cmp_val, in
 
 
 void burnShip(char cmp_val, int i, int j, Board* intermediateBoard) {//function to replace ship representation in intermediate board
+	cout << "Burn Ship: <" << i << "," << j << ">" << endl;
 	if (intermediateBoard->get(i, j) != cmp_val) return; //check all the squares containing this shp's letter
 	if (intermediateBoard->set(i, j, 'x')) return;       //turn them to x's when done
 	burnShip(cmp_val, i + 1, j, intermediateBoard);	//do for all ajacent squares 
