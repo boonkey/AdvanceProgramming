@@ -100,12 +100,13 @@ int initGame() {
 	return result;
 }
 
-int findShips(Board gameBoard) {
+
+int findShips(Board& gameBoard) {
 	//define intermediate board AND result board
 	Board intermediateBoard(BOARD_SIZE, BOARD_SIZE);
 	intermediateBoard.copyBoard(gameBoard);
-	//intermediateBoard.~Board();
 	return 0;
+	/*
 	char temp;
 	bool hasError = false;
 	vector<char> letters = { 'b','B','m','M','p','P','d','D' };
@@ -149,7 +150,10 @@ int findShips(Board gameBoard) {
 	//destroy intermediate board
 	//intermediateBoard.~Board();
 	return hasError;
+	*/
+
 }
+
 
 
 int topLeftOfShip(Board gameBoard,Board *intermediateBoard, int i, int j) {
@@ -286,9 +290,9 @@ Ship shipScan(char value, bool vert, pair<int,int> topLeft, int shipLen) {
 
 
 
-int validateBoard(Board gameBoard) {
-	int result;
-	if (findShips(gameBoard))
-		result = -1;
+int validateBoard(Board& gameBoard) {
+	if (findShips(gameBoard)) {
+		return -1;
+	}
 	return 0;
 }
