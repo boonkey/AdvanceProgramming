@@ -21,6 +21,7 @@
 #define ERR_MISSING_ATTACKB   -9
 #define ERR_MISSING_SBOARD    -10
 #define ERR_LOADING_BOARD     -11
+#define ERR_BOARD_NOT_VAILD   -12
 
 using namespace std;
 
@@ -137,6 +138,13 @@ public:
 		}
 		return const_cast<const char **> (sidedBoard);
 	}
+
+	void copyBoard(Board origin) {
+		for (int i = 1; i <= numOfCols; ++i)
+			for (int j = 1 ; j <= numOfRows; ++j)
+				board[i-1][j-1] = origin.get(i, j);
+	}
+
 	int set(int col, int row, char c) { 
 		if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
 			return -1;

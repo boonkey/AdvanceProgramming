@@ -42,6 +42,12 @@ int main(int argc, char* argv[])
 	A.setBoard(mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
 	
+	if (validateBoard(mainGameBoard)) {
+		cout << "too bad for us" << endl;
+		return ERR_BOARD_NOT_VAILD;
+	}
+
+
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
 

@@ -11,7 +11,6 @@ int pathExist(string pathname) {
 		return ERR_PATH_NOT_FOLDER;
 }
 
-
 vector<string> get_all_files_names_within_folder(string folder)
 {
 	vector<string> names;
@@ -30,8 +29,6 @@ vector<string> get_all_files_names_within_folder(string folder)
 	}
 	return names;
 }
-
-
 
 int initGame() {
 	//get all files
@@ -103,12 +100,26 @@ int initGame() {
 	return result;
 }
 
-void findShips(Board gameBoard) {
+int findShips(Board gameBoard) {
 	//define intermediate board AND result board
 	Board intermediateBoard(BOARD_SIZE, BOARD_SIZE);
+	intermediateBoard.copyBoard(gameBoard);
+	char temp;
+	bool hasError = false;
+	vector<char> letters = { 'b','B','m','M','p','P','d','D' };
+	map<char, bool> warnings = { \
+		{ 'b',false },
+		{ 'B',false },
+		{ 'm',false },
+		{ 'M',false },
+		{ 'p',false },
+		{ 'P',false },
+		{ 'd',false },
+		{ 'D',false },
+	};
 	for (int i = 1; i <= 10; i++) {
 		for (int j = 1; j <= 10; j++) {
-			switch (gameBoard.get(i, j)) {
+			switch ((temp = intermediateBoard.get(i, j))) {
 			case 'b':
 			case 'B':
 			case 'M':
@@ -117,21 +128,31 @@ void findShips(Board gameBoard) {
 			case 'P':
 			case 'd':
 			case 'D':
-				topLeftOfShip(gameBoard, intermediateBoard, i, j);
+				cout << "found a ship of type " << temp << " at <" << i << "," << j << "> " << endl;
+				if (topLeftOfShip(gameBoard, &intermediateBoard, i, j))
+					warnings[temp] = true;
 			default:
 				break;
 			}
 		}
 	}
+	for (auto type : letters)
+		if (warnings[type]) {
+			hasError = true;
+			if (isupper(type))
+				cout << "Wrong size or shape for ship " << type << " for player A" << endl;			if (islower(type))
+				cout << "Wrong size or shape for ship " << type << " for player B" << endl;
+		}
 	//destroy intermediate board
-	intermediateBoard.~Board();
+	//intermediateBoard.~Board();
+	return hasError;
 }
 
 
-void topLeftOfShip(Board gameBoard,Board intermediateBoard, int i, int j) {
-	bool vert;
+int topLeftOfShip(Board gameBoard,Board *intermediateBoard, int i, int j) {
+	bool vert = true;
 	int shiplen;
-	char cmp_val = gameBoard.get(i, j);
+	char cmp_val = intermediateBoard->get(i, j);
 	switch(cmp_val) {
 	case 'b':
 	case 'B':
@@ -151,48 +172,58 @@ void topLeftOfShip(Board gameBoard,Board intermediateBoard, int i, int j) {
 			break;
 	}
 	if ((shiplen != 1) && (gameBoard.get(i + 1, j) == cmp_val))  vert = false; 
-	if (!verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen, vert, i, j))
-		gameBoard.addShip(shipScan(gameBoard, cmp_val, vert, shiplen));
+	if (!verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen, vert, i, j)) {
+		cout << "ship is cool" << endl;
+		gameBoard.addShip(shipScan(cmp_val, vert, make_pair(i, j), shiplen));
+		return 0;
+	}
+	cout << "ship isn't cool" << endl;
+	return -1;
 }
 
 
-int verifyValidShape(Board gameBoard, Board intermediateBoard, char cmp_val, int shiplen, bool vert, int i, int j) {//valid ship=0, invalid =-1 and burn it
+int verifyValidShape(Board gameBoard, Board* intermediateBoard, char cmp_val, int shiplen, bool vert, int i, int j) {
+	//valid ship=0, invalid =-1 and burn it
 	if (shiplen == 0)
 	{
-		if (intermediateBoard.get(i + 1, j) == cmp_val || intermediateBoard.get(i - (int)(vert), j) == cmp_val
-			|| intermediateBoard.get(i, j - (int)(!vert)) == cmp_val || intermediateBoard.get(i, j + 1) == cmp_val)//this needs a quick fix, figure out not to check both top and left, just one
+		if (intermediateBoard->get(i + 1, j) == cmp_val || \
+			(vert && intermediateBoard->get(i - 1, j) == cmp_val) || \
+			(!vert && intermediateBoard->get(i, j - 1) == cmp_val) || \
+			intermediateBoard->get(i, j + 1) == cmp_val)	//this needs a quick fix, figure out not to check both top and left, just one
 		{
 			burnShip(cmp_val, i, j, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
-		else return 0;//success is reached, we are at len=0 and our ship fits exactly
+		return 0;//success is reached, we are at len=0 and our ship fits exactly
 	}
 	if (shiplen >0) //still need to investigate the remaining (expected) length of the ship
 	{
-		if (intermediateBoard.get(i + (int)(!vert), j) == cmp_val || intermediateBoard.get(i, j + (int)vert) == cmp_val) {//this means the ship is too short, expected more of the ship, yet there is nothing
+		if ((!vert && intermediateBoard->get(i + 1, j) != cmp_val) || \
+			(vert && intermediateBoard->get(i, j + 1) != cmp_val)) {//this means the ship is too short, expected more of the ship, yet there is nothing
 			burnShip(cmp_val, i, j, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
 	}
 
 	if (vert) {//should go down
-		if (cmp_val == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
+		if (intermediateBoard->get(i,j) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
 			burnShip(cmp_val, i, j - 1, intermediateBoard);
 			return -1;
 		}
 
-		if (intermediateBoard.get(i - 1, j) == cmp_val || intermediateBoard.get(i + 1, j) == cmp_val) {
+		if (intermediateBoard->get(i - 1, j) == cmp_val || intermediateBoard->get(i + 1, j) == cmp_val) {
 			burnShip(cmp_val, i, j, intermediateBoard);
 			return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i + 1, j));
 		}
 
 	}
 	else {//now we should go right
-		if (cmp_val == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
+		if (intermediateBoard->get(i, j) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
 			burnShip(cmp_val, i - 1, j, intermediateBoard);
 			return -1;
 		}
-		if (intermediateBoard.get(i, j - 1) == cmp_val || intermediateBoard.get(i, j + 1) == cmp_val)
+
+		if (intermediateBoard->get(i, j - 1) == cmp_val || intermediateBoard->get(i, j + 1) == cmp_val)
 		{
 			burnShip(cmp_val, i, j, intermediateBoard); 
 			return -1;
@@ -200,31 +231,48 @@ int verifyValidShape(Board gameBoard, Board intermediateBoard, char cmp_val, int
 		return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i + 1, j));
 	}
 
-	if (vert) {//should go down
-		if (cmp_val != 'o') {//the invalid value of escaping array bounds
-			if (intermediateBoard.get(i - 1, j) == cmp_val || intermediateBoard.get(i + 1, j) == cmp_val)//left and right are other ships, bcz we only go down
-			{
-				burnShip(cmp_val, i, j, intermediateBoard);
-				return -1;
-			}
-			return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i, j + 1));
-		}
-	}
+	//if (vert) {//should go down
+	//	if (cmp_val != 'o') {//the invalid value of escaping array bounds
+	//		if (intermediateBoard->get(i - 1, j) == cmp_val || intermediateBoard->get(i + 1, j) == cmp_val)//left and right are other ships, bcz we only go down
+	//		{
+	//			burnShip(cmp_val, i, j, &intermediateBoard);
+	//			return -1;
+	//		}
+	//		return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, i, j + 1));
+	//	}
+	//}
 }
 
 
-void burnShip(char cmp_val, int i, int j, Board intermediateBoard) {//function to replace ship representation in intermediate board
-	if (intermediateBoard.get(i, j) != cmp_val) return; //check all the squares containing this shp's letter
-	if (intermediateBoard.set(i, j, 'x')) return;       //turn them to x's when done
+void burnShip(char cmp_val, int i, int j, Board* intermediateBoard) {//function to replace ship representation in intermediate board
+	if (intermediateBoard->get(i, j) != cmp_val) return; //check all the squares containing this shp's letter
+	if (intermediateBoard->set(i, j, 'x')) return;       //turn them to x's when done
 	burnShip(cmp_val, i + 1, j, intermediateBoard);	//do for all ajacent squares 
 	burnShip(cmp_val, i - 1, j, intermediateBoard);
 	burnShip(cmp_val, i, j + 1, intermediateBoard);
 	burnShip(cmp_val, i, j - 1, intermediateBoard);
-	return;
 }
 
 
-Ship shipScan(Board gameBoard, char cmp_val, bool vert, int ship_len) {
-	Ship temp('f',true);
+Ship shipScan(char value, bool vert, pair<int,int> topLeft, int shipLen) {
+	Ship temp(value,vert);
+	vector<pair<int, int>> location;
+	for (int i = 0; i < shipLen; i++) {
+		if (vert)
+			location.insert(location.begin(), 1, make_pair(topLeft.first, topLeft.second + i));
+		else
+			location.insert(location.begin(), 1, make_pair(topLeft.first + i, topLeft.second));
+	}
+	temp.putInPlace(location);
+	
 	return temp;
+}
+
+
+
+int validateBoard(Board gameBoard) {
+	int result;
+	if (findShips(gameBoard))
+		result = -1;
+	return 0;
 }
