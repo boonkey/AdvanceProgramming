@@ -18,3 +18,4 @@ int validateBoard(Board& gameBoard);
 int verifyValidShape(Board &gameBoard, Board& intermediateBoard, char cmp_val, int shiplen, bool vert, int i, int j);
 void burnShip(char cmp_val, int i, int j, Board &intermediateBoard,char temp = ' ');
 Ship shipScan(char value, bool vert, pair<int, int> topLeft, int shipLen, Board& gameBoard);
+int checkProximity(Board &board, int col, int row);

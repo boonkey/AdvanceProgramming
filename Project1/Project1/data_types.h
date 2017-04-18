@@ -10,17 +10,19 @@
 #define BOARD_SIZE 10
 
 //================== Error Code Definition ===========
-#define ERR_WRONG_NUM_OF_ARGS -1
-#define ERR_TOO_MUCH_FILES    -2
-#define ERR_PATH_DOESNT_EXIST -3
-#define ERR_PATH_NOT_FOLDER   -4
-#define ERR_NUM_OF_ATTACKA    -5
-#define ERR_NUM_OF_ATTACKB    -6
-#define ERR_NUM_OF_BOARDS     -7
-#define ERR_MISSING_ATTACKA   -8
-#define ERR_MISSING_ATTACKB   -9
-#define ERR_MISSING_SBOARD    -10
-#define ERR_LOADING_BOARD     -11
+#define ERR_WRONG_NUM_OF_ARGS  -1
+#define ERR_TOO_MUCH_FILES     -2
+#define ERR_PATH_DOESNT_EXIST  -3
+#define ERR_PATH_NOT_FOLDER    -4
+#define ERR_NUM_OF_ATTACKA     -5
+#define ERR_NUM_OF_ATTACKB     -6
+#define ERR_NUM_OF_BOARDS      -7
+#define ERR_MISSING_ATTACKA    -8
+#define ERR_MISSING_ATTACKB    -9
+#define ERR_MISSING_SBOARD     -10
+#define ERR_LOADING_BOARD      -11
+#define ERR_BAD_BOARD          -12
+
 
 using namespace std;
 
@@ -43,12 +45,12 @@ public:
 	~Ship() {}
 
 	// returns true belongs to player A
-	bool isSideA() { return isupper(type) == 0; }
+	bool isSideA() { return isupper(type) != 0; }
 
 	void print(){
-		cout << "type: " << type << " alive: " << alive << endl;
+		cout << "type: " << type << " alive: " << alive << " Side A: " << isSideA() << endl;
 		for (auto p : position){
-			cout << p.first.first << " , " << p.first.second << " # status: " << p.second;
+			cout << p.first.first << " , " << p.first.second << " # status: " << p.second << endl;
 		}
 		cout << endl;
 	}
@@ -180,7 +182,7 @@ public:
 	void copyBoard(Board origin) {
 		for (int i = 1; i <= numOfRows; ++i)
 			for (int j = 1; j <= numOfCols; ++j)
-				board[j - 1][i - 1] = origin.get(j, i);
+				board[j - 1][i - 1] = origin.get(i, j);
 	}
 
 	int Board::loadFromFile(string filename) { //loads board from file. returns 0 on success. -1 on fail

@@ -1,6 +1,7 @@
 #pragma once
 #include "utilities.h"
 
+
 int pathExist(string pathname) {
 	struct stat info;
 	if (stat(pathname.c_str(), &info) != 0)
@@ -107,18 +108,19 @@ int findShips(Board &gameBoard) {
 	//define intermediate board AND result board
 	Board intermediateBoard(BOARD_SIZE, BOARD_SIZE);
 	intermediateBoard.copyBoard(gameBoard);
+	//intermediateBoard.print();
 	char temp;
 	bool hasError = false;
-	vector<char> letters = { 'b','B','m','M','p','P','d','D' };
+	vector<char> letters = { 'B','M','P','D','b','m','p','d' }; //this order is needed for correct error printing order
 	map<char, bool> warnings = { \
-	{ 'b',false },
 	{ 'B',false },
-	{ 'm',false },
 	{ 'M',false },
-	{ 'p',false },
 	{ 'P',false },
-	{ 'd',false },
 	{ 'D',false },
+	{ 'b',false },
+	{ 'm',false },	
+	{ 'p',false },	
+	{ 'd',false }	
 	};
 	for (int col = 1; col <= 10; col++) {
 		for (int row = 1; row <= 10; row++) {
@@ -131,15 +133,16 @@ int findShips(Board &gameBoard) {
 			case 'P':
 			case 'd':
 			case 'D':
-				cout << "found a ship of type " << temp << " at <" << col << "," << row << "> " << endl;
+				//cout << "found a ship of type " << temp << " at <" << col << "," << row << "> " << endl;
 				if (topLeftOfShip(gameBoard, intermediateBoard, col, row))
 					warnings[temp] = true;
-				//intermediateBoard.print();
+			//	intermediateBoard.print();
 			default:
 				break;
 			}
 		}
 	}
+	
 	for (auto type : letters)
 		if (warnings[type]) {
 			hasError = true;
@@ -147,15 +150,76 @@ int findShips(Board &gameBoard) {
 				cout << "Wrong size or shape for ship " << type << " for player A" << endl;
 			if (islower(type))
 				cout << "Wrong size or shape for ship " << type << " for player B" << endl;
+
 		}
 	//destroy intermediate board
 	//intermediateBoard.~Board();
-	return hasError;
+	//if (hasError)
+		//return ERR_BAD_SHAPE_OF_SHIPS;
+
+	//intermediateBoard.print();
+
+	//count ships
+	int shipsA = 0, shipsB = 0;
+	for (auto ship : gameBoard.ships) {
+		if (ship.isSideA())
+			shipsA++;
+		else
+			shipsB++;
+	}
+	
+	if (shipsA > 5) {
+		cout << "Too many ships for player A" << endl;
+		hasError = true;
+	}
+
+	if (shipsA < 5) {
+		cout << "Too few ships for player A" << endl;
+		hasError = true;
+	}
+
+	if (shipsB > 5){
+		cout << "Too many ships for player B" << endl;
+		hasError = true;
+	}
+
+	if (shipsB < 5){
+		cout << "Too few ships for player B" << endl;
+		hasError = true;
+	}
+
+	
+
+	for (int col = 1; col <= 10; col++) {
+		for (int row = 1; row <= 10; row++) {
+			if (intermediateBoard.get(col, row) != ' ' && checkProximity(intermediateBoard, col, row)) {
+				cout << "Adjacent Ships on Board" << endl;
+				cout << "on <" << col << "," << row << ">" << endl;
+				return ERR_BAD_BOARD;
+			}			
+		}
+	}
 	//destroy intermediate board
-	intermediateBoard.~Board();
+	
+	//intermediateBoard.~Board();
+	if (hasError)
+		return ERR_BAD_BOARD;
+	return 0;
 }
 
-
+int checkProximity(Board &board, int col, int row) {
+	// returns -1 if a surronding box contain something different than blank or same.
+	char local = board.get(col, row);
+	if (board.get(col + 1, row) != local &&  board.get(col + 1, row) != ' ' && board.get(col + 1, row) != 'o')
+		return -1;
+	if (board.get(col - 1, row) != local &&  board.get(col - 1, row) != ' ' && board.get(col - 1, row) != 'o')
+		return -1;
+	if (board.get(col, row + 1) != local &&  board.get(col, row + 1) != ' ' && board.get(col, row + 1) != 'o')
+		return -1;
+	if (board.get(col, row - 1) != local &&  board.get(col, row - 1) != ' ' && board.get(col, row - 1) != 'o')
+		return -1;
+	return 0;
+}
 
 
 int topLeftOfShip(Board &gameBoard, Board& intermediateBoard, int col, int row) {
@@ -180,32 +244,31 @@ int topLeftOfShip(Board &gameBoard, Board& intermediateBoard, int col, int row) 
 		shiplen = 3;
 		break;
 	}
-	cout << "char: " << intermediateBoard.get(col, row) << "next char: " << intermediateBoard.get(col + 1, row) << endl;
 	if (intermediateBoard.get(col + 1 , row) == cmp_val)
 		vert = false;
 
 	if (!verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, col, row)) {  //verifyValidShape needs shiplen-1 to check
-		cout << "ship is cool" << endl;
+		//cout << "ship is cool" << endl;
 		gameBoard.addShip(shipScan(cmp_val, vert, make_pair(col, row), shiplen,intermediateBoard));
 		return 0;
 	}
-	cout << "ship isn't cool" << endl;
+	//cout << "ship isn't cool" << endl;
 	return -1;
 }
 
 
 int verifyValidShape(Board &gameBoard, Board& intermediateBoard, char cmp_val, int shiplen, bool vert, int col, int row) {
 	//valid ship=0, invalid =-1 and burn it
-	cout << "verifyValidShape: ship type: " << cmp_val << " location: <" << col << "," << row << "> shiplen: " << shiplen << " vert? " << vert << endl;
+	//cout << "verifyValidShape: ship type: " << cmp_val << " location: <" << col << "," << row << "> shiplen: " << shiplen << " vert? " << vert << endl;
 	if (shiplen == 0)
 	{
-		cout << "line: " << __LINE__ << endl;
+		//cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard.get(col + 1, row) == cmp_val || \
 			(vert && intermediateBoard.get(col - 1, row) == cmp_val) || \
 			(!vert && intermediateBoard.get(col, row - 1) == cmp_val) || \
 			intermediateBoard.get(col, row + 1) == cmp_val)	//this needs a quick fix, figure out not to check both top and left, just one
 		{
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, col, row, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
@@ -213,57 +276,57 @@ int verifyValidShape(Board &gameBoard, Board& intermediateBoard, char cmp_val, i
 	}
 	if (shiplen > 0) //still need to investigate the remaining (expected) length of the ship
 	{
-		cout << "line: " << __LINE__ << endl;
+		//cout << "line: " << __LINE__ << endl;
 		if ((!vert && intermediateBoard.get(col + 1, row) != cmp_val) || \
 			(vert && intermediateBoard.get(col, row + 1) != cmp_val)) {//this means the ship is too short, expected more of the ship, yet there is nothing
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, col, row, intermediateBoard); // need to look for all adacent similair letters and replace with x's in intermediate-recursive is advised
 			return -1;
 		}
 	}
 
 	if (vert) {//should go down
-		cout << "line: " << __LINE__ << endl;
+		//cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard.get(col, row) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, col, row - 1, intermediateBoard);
 			return -1;
 		}
 
 		if (intermediateBoard.get(col - 1, row) == cmp_val || intermediateBoard.get(col + 1, row) == cmp_val) {
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, col, row, intermediateBoard);
 			return -1;
 		}
 		return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, col, row + 1));
 	}
 	else {//now we should go right
-		cout << "line: " << __LINE__ << endl;
+		//cout << "line: " << __LINE__ << endl;
 		if (intermediateBoard.get(col, row) == 'o' && shiplen > 0) {//the invalid value of escaping array bounds
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			burnShip(cmp_val, col - 1, row, intermediateBoard);
 			return -1;
 		}
 		if (intermediateBoard.get(col, row - 1) == cmp_val || intermediateBoard.get(col, row + 1) == cmp_val)
 		{
-			cout << "line: " << __LINE__ << endl;
+			//cout << "line: " << __LINE__ << endl;
 			intermediateBoard.print();
 			burnShip(cmp_val, col, row, intermediateBoard);
 			return -1;
 		}
 		return (verifyValidShape(gameBoard, intermediateBoard, cmp_val, shiplen - 1, vert, col + 1, row));
 	}
-	cout << "line: " << __LINE__ << endl;
+	//cout << "line: " << __LINE__ << endl;
 	return -66666;
 }
 
 void burnShip(char cmp_val, int col, int row, Board& intermediateBoard,char temp) {//function to replace ship representation in intermediate board
 	if (intermediateBoard.get(col, row) != cmp_val) return; //check all the squares containing this shp's letter
 	if (intermediateBoard.set(col, row, temp)) return;       //turn them to x's when done
-	burnShip(cmp_val, col + 1, row, intermediateBoard);	//do for all ajacent squares 
-	burnShip(cmp_val, col - 1, row, intermediateBoard);
-	burnShip(cmp_val, col, row + 1, intermediateBoard);
-	burnShip(cmp_val, col, row - 1, intermediateBoard);
+	burnShip(cmp_val, col + 1, row, intermediateBoard,temp);	//do for all ajacent squares 
+	burnShip(cmp_val, col - 1, row, intermediateBoard,temp);
+	burnShip(cmp_val, col, row + 1, intermediateBoard,temp);
+	burnShip(cmp_val, col, row - 1, intermediateBoard,temp);
 	return;
 }
 
@@ -278,15 +341,6 @@ Ship shipScan(char value, bool vert, pair<int, int> topLeft, int shipLen, Board&
 			location.insert(location.begin(), 1, make_pair(topLeft.first + i, topLeft.second));
 	}
 	temp.putInPlace(location);
-	burnShip(value, topLeft.first, topLeft.second, gameBoard);
+	burnShip(value, topLeft.first, topLeft.second, gameBoard,value+1);
 	return temp;
-}
-
-
-
-int validateBoard(Board& gameBoard) {
-	if (findShips(gameBoard)) {
-		return -1;
-	}
-	return 0;
 }

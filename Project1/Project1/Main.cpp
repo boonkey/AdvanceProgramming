@@ -42,15 +42,14 @@ int main(int argc, char* argv[])
 	A.setBoard(mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
 	
-	if (findShips(mainGameBoard)) {
-		cout << "Error: board is not cool" << endl;
-		return -123;
+	if ((err = findShips(mainGameBoard))) {
+		//cout << "Error: board is not cool" << endl;
+		//return err;
 	}
 
-	/*TODO : main board has no ships*/
-	for (auto ship : mainGameBoard.ships) {	// go over all ships, check if one was hit
-		ship.print();
-	}
+	//return 2;
+	system("pause");
+	exit(-1);
 
 	//fill rest of game logic
 	//while true: ask for player attack , notify players on attack result , keep score
@@ -183,9 +182,8 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+
 	}
-
-
 
 //block the terminal for view
 	system("pause");

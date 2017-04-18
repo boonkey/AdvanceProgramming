@@ -1,10 +1,8 @@
-﻿  Main.cpp
-  Player.cpp
-  utilities.cpp
+﻿  utilities.cpp
   Generating code
-  2 of 1699 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  0 of 1698 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    16 functions had inline decision re-evaluated but remain unchanged
+    20 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\x64\Release\Project1.exe
   Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\x64\Release\Project1.pdb (Full PDB)
