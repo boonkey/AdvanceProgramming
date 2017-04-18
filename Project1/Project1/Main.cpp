@@ -18,10 +18,9 @@ int main(int argc, char* argv[])
 		config.workingDirectory = ".";
 	if ((err = initGame()))
 		return err;
-	cout << config.attackA << endl;
 	
 	if (mainGameBoard.loadFromFile(config.pathBoard)) {
-		perror("Failed to load from file");
+		//perror("Failed to load from file");
 		return ERR_LOADING_BOARD; //failed to read file
 	}
 	Player A(BOARD_SIZE, BOARD_SIZE);
@@ -42,7 +41,7 @@ int main(int argc, char* argv[])
 	A.setBoard(mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
 	
-	if ((err = findShips(mainGameBoard))) {
+	if ((err = validateBoard(mainGameBoard))) {
 		//cout << "Error: board is not cool" << endl;
 		//return err;
 	}

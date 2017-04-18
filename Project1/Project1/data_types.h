@@ -22,7 +22,7 @@
 #define ERR_MISSING_SBOARD     -10
 #define ERR_LOADING_BOARD      -11
 #define ERR_BAD_BOARD          -12
-
+#define ERR_UNREACHABLE        -13
 
 using namespace std;
 
@@ -52,7 +52,6 @@ public:
 		for (auto p : position){
 			cout << p.first.first << " , " << p.first.second << " # status: " << p.second << endl;
 		}
-		cout << endl;
 	}
 
 	//puts a ship in place (position is set to true position on board. initialized to all parts alive
@@ -69,6 +68,7 @@ public:
 		for (auto p : position)
 			if (p.second == true)
 				return true;
+		alive = false;
 		return false;
 	}
 	
@@ -188,10 +188,13 @@ public:
 	int Board::loadFromFile(string filename) { //loads board from file. returns 0 on success. -1 on fail
 		string line;
 		int rows = 1;
+		
+		//check cwd
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		string::size_type pos = string(buffer).find_last_of("\\/");
-		cout << "Working Dir: " << string(buffer).substr(0, pos) << endl; 
+		//cout << "Working Dir: " << string(buffer).substr(0, pos) << endl; 
+
 		ifstream boardFile(filename);
 		if (boardFile.is_open()) {
 			while (getline(boardFile, line) && rows <= BOARD_SIZE) {
@@ -219,7 +222,7 @@ public:
 				rows++;
 			}
 		//	cout << "-------------------" << endl;
-			print();
+			//print();
 			return 0;
 		}
 		else {

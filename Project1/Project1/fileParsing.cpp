@@ -5,7 +5,7 @@ pair<vector<pair<int, int>>, int> parseAttackFile(string filename) {
 	string line;
 	smatch m;
 	int numCounter = 0;
-	cout << "loading file: " << filename << endl;
+	//cout << "loading file: " << filename << endl;
 	ifstream myfile(filename);
 	regex exp("\\s*(\\d*)\\s*,\\s*(\\d*)");
 	if (myfile.is_open()) {
@@ -18,10 +18,10 @@ pair<vector<pair<int, int>>, int> parseAttackFile(string filename) {
 			}
 		}
 		myfile.close();
-		cout << "File loaded Successfully" << endl;
+		//cout << "File loaded Successfully" << endl;
 		return make_pair(results, 0);
 	} else {
-		cout << "Unable to open file" << endl;
+		cout << "Error: Unable to open file" << endl;
 		return  make_pair(results, -1);
 	}
 }
