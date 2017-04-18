@@ -116,20 +116,20 @@ public:
 	Board(int rows, int cols) {
 		numOfRows = rows;
 		numOfCols = cols;
-		board = new char*[numOfCols];
+		board = new char*[numOfRows];
 		for (int i = 0; i < numOfCols; ++i) {
 			board[i] = new char[numOfRows];
 		}
 		//init to clear board
-		for (int i = 0; i < numOfCols; ++i) {
-			for (int j = 0; j < numOfRows; ++j) {
-				board[i][j] = ' ';
+		for (int i = 0; i < numOfRows; ++i) {
+			for (int j = 0; j < numOfCols; ++j) {
+				board[j][i] = ' ';
 			}
 		}
 	}
 	//destructor
 	~Board() {
-		for (int i = 0; i < numOfCols; ++i) {
+		for (int i = 0; i < numOfRows; ++i) {
 			delete[] board[i];
 		}
 		delete[] board;	
@@ -138,9 +138,10 @@ public:
 	char get(int col, int row) { 
 		if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
 			return 'o';
-		return board[col - 1][row - 1]; 
+		return board[row - 1][col - 1]; 
 	}
 	const char** getFullBoard(){ return const_cast<const char **>(board) ; }
+
 	const char** getSidedBoard(bool sideA) {
 		char** sidedBoard = new char*[numOfCols];
 		for (int i = 0; i < numOfCols; ++i) {
@@ -159,19 +160,27 @@ public:
 		}
 		return const_cast<const char **> (sidedBoard);
 	}
+
 	int set(int col, int row, char c) { 
 		if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
 			return -1;
-		board[col - 1][row - 1] = c; 
+		board[row - 1][col - 1] = c; 
 		return 0;
 	}
+
 	void Board::print(){
-		for (int i = 0; i < numOfCols; i++) {
-			for (int j = 0; j < numOfRows; j++) {
-				cout << board[i][j] << ' ';
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfCols; j++) {
+				cout << board[j][i] << char(176);
 			}
 			cout << endl;
 		}
+	}
+
+	void copyBoard(Board origin) {
+		for (int i = 1; i <= numOfRows; ++i)
+			for (int j = 1; j <= numOfCols; ++j)
+				board[j - 1][i - 1] = origin.get(j, i);
 	}
 
 	int Board::loadFromFile(string filename) { //loads board from file. returns 0 on success. -1 on fail

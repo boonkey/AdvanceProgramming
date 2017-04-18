@@ -42,6 +42,11 @@ int main(int argc, char* argv[])
 	A.setBoard(mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
 	
+	if (findShips(mainGameBoard)) {
+		cout << "Error: board is not cool" << endl;
+		return -123;
+	}
+
 	/*TODO : main board has no ships*/
 	for (auto ship : mainGameBoard.ships) {	// go over all ships, check if one was hit
 		ship.print();
@@ -183,8 +188,7 @@ int main(int argc, char* argv[])
 
 
 //block the terminal for view
-	char* x="";
-	cin >> x;
-	return 0;
+	system("pause");
+	return 9;
 }
 
