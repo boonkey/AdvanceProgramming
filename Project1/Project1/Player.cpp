@@ -37,7 +37,7 @@ public:
 				return attack;
 			} else {
 				haveMoreAttacks = false;
-				return *nextAttack;	//return last pair
+				return make_pair(-1, -1);	//return last pair
 			}
 		} else{
 			return  make_pair(-1, -1);

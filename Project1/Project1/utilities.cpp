@@ -299,7 +299,7 @@ int verifyValidShape(Board &gameBoard, Board& intermediateBoard, char cmp_val, i
 		if (intermediateBoard.get(col, row - 1) == cmp_val || intermediateBoard.get(col, row + 1) == cmp_val)
 		{
 			
-			intermediateBoard.print();
+//			intermediateBoard.print();
 			burnShip(cmp_val, col, row, intermediateBoard);
 			return -1;
 		}

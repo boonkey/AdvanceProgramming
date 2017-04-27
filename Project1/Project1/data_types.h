@@ -88,6 +88,7 @@ public:
 	}
 
 	int getShipScore(){
+		print();
 		if ((type == 'b') || (type == 'B')) {
 			return 2;
 		}
@@ -175,7 +176,12 @@ public:
 	}
 
 	void Board::print(){
+		cout << char(176) << char(176);
+		for (int i = 0;i<numOfRows;i++)
+			cout << i+1 << char(176);
+		cout << endl;
 		for (int i = 0; i < numOfRows; i++) {
+			cout << i+1 << char(176);
 			for (int j = 0; j < numOfCols; j++) {
 				cout << board[j][i] << char(176);
 			}
@@ -238,12 +244,11 @@ public:
 		ships.insert(ships.begin(), 1, ship);
 	}
 	
-	//IN : bool sideA - true iff checking if player A has won
-	//OUT: true if player has won
+	//IN : bool sideA - true iff checking if player A has ships
+	//OUT: true if player have no ships left
 	bool gameOver(bool sideA) {
 		for (auto ship : ships) {
 			if ((ship.isSideA() == sideA) && ship.checkAlive())
-
 				return false;
 		}
 		//for (auto ship : ships)

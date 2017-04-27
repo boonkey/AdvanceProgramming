@@ -16,13 +16,18 @@ int main(int argc, char* argv[])
 		config.workingDirectory = argv[1];
 	else
 		config.workingDirectory = ".";
-	if ((err = initGame()))
+	if ((err = initGame())) {
+		system("pause");
 		return err;
+	}
 	
 	if (mainGameBoard.loadFromFile(config.pathBoard)) {
 		//perror("Failed to load from file");
 		return ERR_LOADING_BOARD; //failed to read file
 	}
+
+	mainGameBoard.print();
+
 	Player A(BOARD_SIZE, BOARD_SIZE);
 	Player B(BOARD_SIZE, BOARD_SIZE);
 	A.setSide(true);
@@ -46,7 +51,8 @@ int main(int argc, char* argv[])
 
 	if ((err = validateBoard(mainGameBoard))) {
 		//cout << "Error: board is not cool" << endl;
-		//return err;
+		system("pause");
+		return err;
 	}
 
 	/*mainGameBoard.print();
@@ -69,21 +75,19 @@ int main(int argc, char* argv[])
 	while(true){
 	NEXT_TURN:
 		//system("pause");
-		//cout << "==============================" << endl;
+		cout << "==============================" << endl;
 		//cout << "A " << scoreA << " playing? " << stillPlayingA << endl;
 		//cout << "B " << scoreB << " playing? " << stillPlayingB << endl;
 
 		//check if game ended 
-		if (mainGameBoard.gameOver(true)) {
-			cout << "Player A won" << endl;
-			stillPlayingA = false;
-			stillPlayingB = false;
-		} else if (mainGameBoard.gameOver(false)) {
-			cout << "Player B won" << endl;
+		if (mainGameBoard.gameOver(true) || mainGameBoard.gameOver(false)) {
 			stillPlayingA = false;
 			stillPlayingB = false;
 		}
+
 		if ((stillPlayingA == false) && (stillPlayingB == false)) {	//both players stoped playing (game ended or no more moves
+			if (scoreA > scoreB) cout << "Player A won" << endl;
+			if (scoreA < scoreB) cout << "Player B won" << endl;
 			cout << "Points:" << endl;
 			cout << "Player A : " << scoreA << endl;
 			cout << "Player B : " << scoreB << endl;
@@ -96,7 +100,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			}
 			pair<int, int> thisTurnAttack = A.attack();
-		//	cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
+			cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
 ///////////////////////
@@ -162,7 +166,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			}
 			pair<int, int> thisTurnAttack = B.attack();
-		//	cout <<"PLAYER B: "<< thisTurnAttack.first << "," << thisTurnAttack.second << endl;
+			cout <<"PLAYER B: "<< thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
 ///////////////////////
