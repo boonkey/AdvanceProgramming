@@ -190,7 +190,7 @@ int validateBoard(Board &gameBoard) {
 		for (int row = 1; row <= 10; row++) {
 			if (intermediateBoard.get(col, row) != ' ' && checkProximity(intermediateBoard, col, row)) {
 				cout << "Adjacent Ships on Board" << endl;
-				cout << "on <" << col << "," << row << ">" << endl;
+				//cout << "on <" << col << "," << row << ">" << endl;
 				return ERR_BAD_BOARD;
 			}			
 		}

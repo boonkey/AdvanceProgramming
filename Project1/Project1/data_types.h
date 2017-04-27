@@ -74,12 +74,13 @@ public:
 	
 	//returns true iff attack hit the ship
 	bool checkAttack(pair<int, int> location) {
-		for (auto pos : position) {
-			if (location.first == pos.first.first && location.second == pos.first.second && pos.second == true) {
-				cout << "Ship was hit on " << location.first << "," << location.second << endl;
-				pos.second = false;
-				if (checkAlive() == false)
-					cout << "ship is dead" << endl;
+		for (int i=0; i<position.size();i++) {
+			if (location.first == position[i].first.first && location.second == position[i].first.second && position[i].second == true) {
+				//cout << "Ship was hit on " << location.first << "," << location.second << endl;
+				position[i].second = false;
+				if (checkAlive() == false){
+				//	cout << "ship is dead" << endl;
+				}
 				return true;
 			}
 		}
@@ -137,6 +138,9 @@ public:
 		delete[] board;	
 	}
 
+	Board(Board const &) = delete;
+	void operator=(Board const &x) = delete;
+
 	char get(int col, int row) { 
 		if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
 			return 'o';
@@ -179,7 +183,7 @@ public:
 		}
 	}
 
-	void copyBoard(Board origin) {
+	void copyBoard(Board &origin) {
 		for (int i = 1; i <= numOfRows; ++i)
 			for (int j = 1; j <= numOfCols; ++j)
 				board[j - 1][i - 1] = origin.get(i, j);
@@ -242,6 +246,8 @@ public:
 
 				return false;
 		}
+		//for (auto ship : ships)
+		//	ship.print();
 		return true;
 	}
 };

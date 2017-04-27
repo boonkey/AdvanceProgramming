@@ -18,7 +18,8 @@ pair<vector<pair<int, int>>, int> parseAttackFile(string filename) {
 			}
 		}
 		myfile.close();
-		//cout << "File loaded Successfully" << endl;
+		//cout << "File loaded Successfully " << filename << endl;
+	//	cout << "results size: " << results.size() << endl;
 		return make_pair(results, 0);
 	} else {
 		cout << "Error: Unable to open file" << endl;

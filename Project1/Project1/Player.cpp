@@ -5,11 +5,11 @@
 class Player : public IBattleshipGameAlgo {
 	Board PlayersBoard;
 	//for ex1
-	vector<pair<int, int>> listOfAttacks;    // declares a vector of integers
-	vector<pair<int, int>>::iterator nextAttack = listOfAttacks.begin();
 	bool haveMoreAttacks = true;
 	bool isPlayerA;
 public:
+	vector<pair<int, int>> listOfAttacks;    // declares a vector of integers
+	vector<pair<int, int>>::iterator nextAttack = listOfAttacks.begin();
 	//constructor
 	Player(int rows, int cols) :PlayersBoard(rows, cols) {}
 	//destructor
