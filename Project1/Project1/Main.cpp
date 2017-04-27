@@ -1,6 +1,5 @@
 #include "main.h"
-#include <regex>
-#include <cstdlib>
+
 
 
 
@@ -21,17 +20,16 @@ int main(int argc, char* argv[])
 		return err;
 	}
 	
-	if (mainGameBoard.loadFromFile(config.pathBoard)) {
-		//perror("Failed to load from file");
-		return ERR_LOADING_BOARD; //failed to read file
-	}
-
+	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
+	
 	mainGameBoard.print();
 
-	Player A(BOARD_SIZE, BOARD_SIZE);
-	Player B(BOARD_SIZE, BOARD_SIZE);
+	Player A(BOARD_SIZE, BOARD_SIZE,true);
+	Player B(BOARD_SIZE, BOARD_SIZE,false);
 	A.setSide(true);
 	
+	
+	//move into players
 	pair<vector<pair<int, int>>, int> A_attacks = parseAttackFile(config.attackA);
 	
 	if( A_attacks.second == 0 )	{ //functions ended as expected
