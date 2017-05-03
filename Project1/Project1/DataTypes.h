@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cerrno>
 #include <cstdlib>
 #include <fstream>
@@ -37,4 +38,5 @@ struct Configuration{
 	//Board gameBoard(BOARD_SIZE,BOARD_SIZE);
 };
 
-Configuration config;
+extern struct Configuration config;
+
