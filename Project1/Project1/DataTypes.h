@@ -12,6 +12,8 @@
 #include <utility> // for std::pair
 #include <vector>
 #include <Windows.h>
+#include <stdio.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -33,9 +35,30 @@ using namespace std;
 #define ERR_UNREACHABLE        -13
 
 struct Configuration{
-	string workingDirectory;
+	string workingDirectory = ".";
 	string attackA, attackB, pathBoard;
+	int delay = 600;
+	bool quiet = false;
 };
 
 extern struct Configuration config;
 
+enum COLOR
+{
+	BLACK = 0,
+	DARK_BLUE = 1,
+	DARK_GREEN = 2,
+	DARK_AQUA, DARK_CYAN = 3,
+	DARK_RED = 4,
+	DARK_PURPLE = 5, DARK_PINK = 5, DARK_MAGENTA = 5,
+	DARK_YELLOW = 6,
+	DARK_WHITE = 7,
+	GRAY = 8,
+	BLUE = 9,
+	GREEN = 10,
+	AQUA = 11, CYAN = 11,
+	RED = 12,
+	PURPLE = 13, PINK = 13, MAGENTA = 13,
+	YELLOW = 14,
+	WHITE = 15
+};

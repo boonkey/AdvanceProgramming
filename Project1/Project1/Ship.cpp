@@ -10,6 +10,8 @@ Ship::Ship(char t, bool hor) :
 bool Ship::isSideA() { return isupper(type) != 0; }
 
 void Ship::print() {
+	if (config.quiet)
+		return;
 	cout << "type: " << type << " alive: " << alive << " Side A: " << isSideA() << endl;
 	for (auto p : position) {
 		cout << p.first.first << " , " << p.first.second << " # status: " << p.second << endl;
@@ -49,8 +51,21 @@ bool Ship::checkAttack(pair<int, int> location) {
 	return false;
 }
 
+bool Ship::checkLocation(pair<int, int> location) {
+	for (int i = 0; i < position.size(); i++) {
+		if (location.first == position[i].first.first && location.second == position[i].first.second) {
+			//gotoxy(0, 1);
+			//HideCursor();
+			//SetTextColor(WHITE);
+			//print();
+			return true;
+		}
+	}
+	return false;
+}
+
 int Ship::getShipScore() {
-	print();
+	//print();
 	if ((type == 'b') || (type == 'B')) {
 		return 2;
 	}

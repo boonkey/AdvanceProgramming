@@ -3,23 +3,36 @@
 
 int main(int argc, char* argv[])
 {
+	system("cls");
+	HideCursor();
 	int err;
+	vector<string> args;
 	Board mainGameBoard(BOARD_SIZE, BOARD_SIZE);
-	if (argc > 2) {
-		cout << "Error: too much arguments" << endl;
-		return ERR_WRONG_NUM_OF_ARGS;
+	for (int i = 0; i < argc; i++) {
+		if (string(argv[i]) == "-delay") {
+			if (i + 1 < argc) {
+				config.delay = atoi(argv[i + 1]);
+				i++;
+				continue;
+			}
+			else {
+				cout << "Error: -delay without value" << endl;
+				return -1;
+			}
+		}
+		if (string(argv[i]) == "-quiet") {
+			config.quiet = true;
+			continue;
+		}
+		config.workingDirectory = argv[i];
 	}
-	if (argc == 2)
-		config.workingDirectory = argv[1];
-	else
-		config.workingDirectory = ".";
+	
 	if ((err = initGame())) {
 		system("pause");
 		return err;
 	}
-	
+	SetTextColor(RED);
 	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
-	
 	mainGameBoard.print();
 
 	Player A(BOARD_SIZE, BOARD_SIZE,true);
@@ -71,7 +84,7 @@ int main(int argc, char* argv[])
 	while(true){
 	NEXT_TURN:
 		//system("pause");
-		cout << "==============================" << endl;
+		//cout << "==============================" << endl;
 		//cout << "A " << scoreA << " playing? " << stillPlayingA << endl;
 		//cout << "B " << scoreB << " playing? " << stillPlayingB << endl;
 
@@ -82,6 +95,8 @@ int main(int argc, char* argv[])
 		}
 
 		if ((stillPlayingA == false) && (stillPlayingB == false)) {	//both players stoped playing (game ended or no more moves
+			SetTextColor(WHITE);
+			gotoxy(0, 0);
 			if (scoreA > scoreB) cout << "Player A won" << endl;
 			if (scoreA < scoreB) cout << "Player B won" << endl;
 			cout << "Points:" << endl;
@@ -96,7 +111,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			}
 			pair<int, int> thisTurnAttack = A.attack();
-			cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
+			//cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
 ///////////////////////
@@ -106,6 +121,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			} else {	//attack was made -> process and notify players
 				if ((thisTurnAttack.first >= 1) && (thisTurnAttack.first <= 10) && (thisTurnAttack.second >= 1) && (thisTurnAttack.second <= 10)) {	//valid attack possition
+					mainGameBoard.kaboom(thisTurnAttack);
 					for (int i = 0;i<mainGameBoard.ships.size();i++) {	// go over all ships, check if one was hit
 						Ship &ship = mainGameBoard.ships[i];
 						if (ship.checkAttack(thisTurnAttack)) {	//if hit was made
@@ -162,7 +178,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			}
 			pair<int, int> thisTurnAttack = B.attack();
-			cout <<"PLAYER B: "<< thisTurnAttack.first << "," << thisTurnAttack.second << endl;
+		//	cout <<"PLAYER B: "<< thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
 ///////////////////////
@@ -173,6 +189,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			} else {	//attack was made -> process and notify players
 				if ((thisTurnAttack.first >= 1) && (thisTurnAttack.first <= 10) && (thisTurnAttack.second >= 1) && (thisTurnAttack.second <= 10)) {	//valid attack possition
+					mainGameBoard.kaboom(thisTurnAttack);
 					for (int i = 0; i < mainGameBoard.ships.size();i++) {	// go over all ships, check if one was hit
 						Ship& ship = mainGameBoard.ships[i];
 						if (ship.checkAttack(thisTurnAttack)) {	//if hit was made

@@ -1,7 +1,7 @@
 #pragma once
 //#include "Utils.h"
-#include "DataTypes.h"
-
+#include "DataTypes.h"  //already included in graphics.h
+//#include "graphics.h"
 //extern struct Configuration config;
 
 class Ship {
@@ -18,6 +18,7 @@ public:
 	int putInPlace(vector<pair<int, int>> location);
 	bool checkAlive();
 	bool checkAttack(pair<int, int> location);
+	bool checkLocation(pair<int, int> location);
 	int getShipScore();
 };
 	
@@ -42,9 +43,11 @@ public:
 	int loadFromFile(string filename);
 	void addShip(Ship ship);
 	bool gameOver(bool sideA);
+	int isShipThere(pair<int, int> location);
+	void kaboom(pair<int, int> location);
 };
 
-//no need to utils.h
+
 extern Configuration config;
 int initGame();
 int pathExist(string pathname);
@@ -55,3 +58,6 @@ int verifyValidShape(Board &gameBoard, Board& intermediateBoard, char cmp_val, i
 void burnShip(char cmp_val, int i, int j, Board &intermediateBoard, char temp = ' ');
 Ship shipScan(char value, bool vert, pair<int, int> topLeft, int shipLen, Board& gameBoard);
 int checkProximity(Board &board, int col, int row);
+void gotoxy(int x, int y);
+void SetTextColor(COLOR color);
+void HideCursor();

@@ -59,17 +59,106 @@ int Board::set(int col, int row, char c) {
 }
 
 void Board::print() {
+	if (config.quiet)
+		return;
+	SetTextColor(WHITE);
+	gotoxy(50, 0);
 	cout << char(176) << char(176);
 	for (int i = 0; i < numOfRows; i++)
 		cout << i + 1 << char(176);
 	cout << endl;
-	for (int i = 0; i < numOfRows; i++) {
-		cout << i + 1 << char(176);
-		for (int j = 0; j < numOfCols; j++) {
-			cout << board[j][i] << char(176);
+	for (int i = 0; i < 2*numOfRows; i++) {
+		if (i != 18)
+			gotoxy(50, 1 + i);
+		else
+			gotoxy(49, i + 1);
+		
+		if (i % 2 == 0) {
+			cout << (i + 2)/2 << char(176);
+			for (int j = 0; j < numOfCols; j++) {
+				if (islower(board[j][(i + 1) / 2])) {
+					SetTextColor(AQUA);
+					cout << board[j][(i + 1) / 2];
+				}
+				else if (isupper(board[j][(i + 1) / 2])) {
+					SetTextColor(RED);
+					cout << board[j][(i + 1) / 2];
+				}
+				else {
+					SetTextColor(BLUE);
+					cout << char(247);
+				}
+				
+				SetTextColor(WHITE);
+				cout << char(176);
+			}
+			cout << endl;
 		}
-		cout << endl;
+		else {
+			for (int j = 0; j <= numOfCols; j++) {
+				cout << char(176) << char(176);
+			}
+			cout << endl;
+		}
 	}
+}
+
+/*function checks if there is ship there
+ return values:
+	0 - no ship there
+	1 - A's ship there, alive and well
+	3 - A's ship there, dead
+	2 - B's ship there, alive and well
+	4 - B's ship there, dead
+	*/
+int Board::isShipThere(pair<int,int> location) {
+	for (auto ship : ships) {
+		if (ship.checkLocation(location)) {
+			if (ship.isSideA() && ship.checkAlive())
+				return 1;
+			if (ship.isSideA() && !ship.checkAlive())
+				return 3;
+			if (!ship.isSideA() && ship.checkAlive())
+				return 2;
+			if (!ship.isSideA() && !ship.checkAlive())
+				return 4;
+		}
+	}
+	return 0;
+}
+
+void Board::kaboom(pair<int,int> location) {
+	if (config.quiet)
+		return;
+	int ship;
+	gotoxy(50 + 2 * location.second, -1 + 2 * location.first);
+	SetTextColor(GREEN);
+	cout << "@" << endl;
+	HideCursor();
+	Sleep(3*config.delay/4);
+	
+	//gotoxy(0, 0);
+	//SetTextColor(WHITE);
+	//cout << "ATTACKING: <" << location.first << "," << location.second << ">        " << endl;
+	gotoxy(50 + 2 * location.second, -1 + 2 * location.first);
+	if ((ship = isShipThere(location)) % 2 == 1 && ship > 0){
+		SetTextColor(RED);
+		cout << char(178);
+		HideCursor();
+	}
+	else if (ship % 2 == 0 && ship > 0){
+		gotoxy(50 + 2 * location.second, -1 + 2 * location.first);
+		SetTextColor(AQUA);
+		cout << char(178);
+		HideCursor();
+	}
+	else {
+		gotoxy(50 + 2 * location.second, -1 + 2 * location.first);
+		SetTextColor(BLUE);
+		cout << char(247);
+		HideCursor();
+	}
+	Sleep(config.delay / 4);
 }
 
 void Board::copyBoard(Board &origin) {
@@ -350,7 +439,21 @@ int checkProximity(Board &board, int col, int row) {
 	return 0;
 }
 
+void gotoxy(int x, int y) {
+	COORD coord = { (short)x,(short)y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 
+void SetTextColor(COLOR color) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void HideCursor() {
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = false;
+	lpCursor.dwSize = 0;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &lpCursor);
+}
 
 
 
