@@ -35,7 +35,6 @@ using namespace std;
 struct Configuration{
 	string workingDirectory;
 	string attackA, attackB, pathBoard;
-	//Board gameBoard(BOARD_SIZE,BOARD_SIZE);
 };
 
 extern struct Configuration config;

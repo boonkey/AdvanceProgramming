@@ -45,7 +45,7 @@ public:
 };
 
 //no need to utils.h
-//extern Configuration config;
+extern Configuration config;
 int initGame();
 int pathExist(string pathname);
 vector<string> get_all_files_names_within_folder(string folder);

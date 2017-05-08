@@ -75,12 +75,14 @@
 		return;
 	}
 
+	bool Player::init(const std::string & path)
+	{
+		return false;
+	}
+
 	void Player::printBoard(){ PlayersBoard.print(); }
 	void Player::setlistOfAttacks(vector<pair<int, int>> copy){
 		listOfAttacks = copy;
 	}
 
 //TODO implement this method
-	bool init(const std::string& path){
-		return true;
-	}
