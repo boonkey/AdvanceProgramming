@@ -114,6 +114,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="FileReaderAlgo.cpp" />
+    <ClCompile Include="Naive.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Ship.cpp" />

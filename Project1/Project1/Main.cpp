@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Naive.cpp"
 
 
 int main(int argc, char* argv[])
@@ -35,17 +36,18 @@ int main(int argc, char* argv[])
 	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
 	mainGameBoard.print();
 
-	Player A(BOARD_SIZE, BOARD_SIZE,true);
-	Player B(BOARD_SIZE, BOARD_SIZE,false);
+	Naive A;
+	Player B;
+	A.setBoard(0, mainGameBoard.getFullBoard(), 10, 10);
 	A.setSide(true);
-	
+
 	
 	//move into players
-	pair<vector<pair<int, int>>, int> A_attacks = A.parseAttackFile(config.attackA);
+	//pair<vector<pair<int, int>>, int> A_attacks = A.parseAttackFile(config.attackA);
 	
-	if( A_attacks.second == 0 )	{ //functions ended as expected
-		A.setlistOfAttacks(A_attacks.first);
-	}
+	//if( A_attacks.second == 0 )	{ //functions ended as expected
+	//	A.setlistOfAttacks(A_attacks.first);
+	//}
 	pair<vector<pair<int, int>>, int> B_attacks = B.parseAttackFile(config.attackB);
 	if (B_attacks.second == 0) { //functions ended as expected
 		B.setlistOfAttacks(B_attacks.first);
@@ -54,8 +56,7 @@ int main(int argc, char* argv[])
 
 	A.setBoard(0,mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(1,mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
-	
-	A.nextAttack = A.listOfAttacks.begin();
+	//A.nextAttack = A.attack();
 	B.nextAttack = B.listOfAttacks.begin();
 
 	if ((err = validateBoard(mainGameBoard))) {
@@ -75,9 +76,9 @@ int main(int argc, char* argv[])
 	int scoreA = 0;
 	int scoreB = 0;
 	bool stillPlayingA = true;
-	bool stillPlayingB = true;
-	if (A.listOfAttacks.size() == 0)
-		stillPlayingA = false;
+	bool stillPlayingB = false;
+	//if (A.listOfAttacks.size() == 0)
+	//	stillPlayingA = false;
 	if (B.listOfAttacks.size() == 0)
 		stillPlayingB = false;
 	bool currentPlayer = true; //true for A , false for B

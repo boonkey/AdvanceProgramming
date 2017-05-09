@@ -31,6 +31,7 @@ public:
 	vector<Ship> ships;
 	//constructor
 	Board(int rows, int cols);
+	Board();
 	~Board();
 	Board(Board const &) = delete;
 	void operator=(Board const &x) = delete;

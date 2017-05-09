@@ -3,18 +3,19 @@
 #include "IBattleshipGameAlgo.h"
 
 class Player : public IBattleshipGameAlgo {
+public:
 	Board PlayersBoard;
 	//for ex1
 	bool haveMoreAttacks = true;
 	bool isPlayerA;
 
-public:
+
 	vector<pair<int, int>> listOfAttacks;    // declares a vector of integers
 	vector<pair<int, int>>::iterator nextAttack = listOfAttacks.begin();
-	//constructor
-	Player(int rows, int cols, bool side);
+
 	//destructor
 	~Player();
+	Player();
 	pair<vector<pair<int, int>>, int> parseAttackFile(string filename);
 	
 	//ibattleship to implement
@@ -28,4 +29,3 @@ public:
 	void printBoard();
 	void setlistOfAttacks(vector<pair<int, int>> copy);
 };
-

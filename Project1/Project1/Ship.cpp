@@ -7,7 +7,7 @@ Ship::Ship(char t, bool hor) :
 	{}
 
 // returns true belongs to player A
-bool Ship::isSideA() { return isupper(type) != 0; }
+bool Ship::isSideA() { return IsCharUpperA(type) != 0; }
 
 void Ship::print() {
 	if (config.quiet)

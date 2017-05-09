@@ -1,18 +1,9 @@
 #include "Player.h"
 
 
-	//constructor
-	Player::Player(int rows, int cols,bool side) :PlayersBoard(rows, cols) {
-		int err;
-		if (side)
-			make_pair(listOfAttacks, err) = parseAttackFile(config.attackA);
-		else 
-			make_pair(listOfAttacks, err) = parseAttackFile(config.attackB);
-
-	}
 	//destructor
 	Player::~Player(){}
-	
+	Player::Player(){}
 	pair<vector<pair<int, int>>, int> Player::parseAttackFile(string filename) {
 		vector<pair<int, int>> results;
 		string line;
@@ -43,9 +34,42 @@
 
 //TODO what player argument is for?
 	void Player::setBoard(int player, const char** board, int numRows, int numCols) {
-		for (int i = 0; i < numCols; ++i) {
-			for (int j = 0; j < numRows; ++j) {
-				PlayersBoard.set(j + 1, i + 1, board[i][j]);
+		isPlayerA = (player == 0);
+		if (player = 0) {
+			for (int i = 0; i < numCols; ++i) {
+				for (int j = 0; j < numRows; ++j) {
+					if (IsCharUpperA(board[i][j]))
+						PlayersBoard.set(j + 1, i + 1, board[i][j]);
+				}
+			}
+		}
+		else if (player = 1) {
+			for (int i = 0; i < numCols; ++i) {
+				for (int j = 0; j < numRows; ++j) {
+					if (IsCharLowerA(board[i][j]))
+						PlayersBoard.set(j + 1, i + 1, board[i][j]);
+				}
+			}
+		}
+		Board intermediateBoard(BOARD_SIZE, BOARD_SIZE);
+		intermediateBoard.copyBoard(PlayersBoard);
+		for (int col = 1; col <= 10; col++) {
+			for (int row = 1; row <= 10; row++) {
+				switch (intermediateBoard.get(col, row)) {
+				case 'b':
+				case 'B':
+				case 'M':
+				case 'm':
+				case 'p':
+				case 'P':
+				case 'd':
+				case 'D':
+					//cout << "found a ship of type " << temp << " at <" << col << "," << row << "> " << endl;
+					topLeftOfShip(PlayersBoard, intermediateBoard, col, row);
+					//	intermediateBoard.print();
+				default:
+					break;
+				}
 			}
 		}
 	}

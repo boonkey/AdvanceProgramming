@@ -15,6 +15,10 @@ Board::Board(int rows, int cols) {
 		}
 	}
 }
+Board::Board()
+{
+	Board(BOARD_SIZE, BOARD_SIZE);
+}
 //destructor
 Board::~Board() {
 	for (int i = 0; i < numOfRows; ++i) {
@@ -40,9 +44,9 @@ const char** Board::getSidedBoard(bool sideA) {
 	//init to clear board
 	for (int i = 0; i < numOfCols; ++i) {
 		for (int j = 0; j < numOfRows; ++j) {
-			if (isupper(board[i][j]) != 0 && sideA)
+			if (IsCharUpperA(board[i][j]) != 0 && sideA)
 				sidedBoard[i][j] = board[i][j];
-			else if (islower(board[i][j]) != 0 && !sideA)
+			else if (IsCharLowerA(board[i][j]) != 0 && !sideA)
 				sidedBoard[i][j] = board[i][j];
 			else
 				sidedBoard[i][j] = ' ';
@@ -76,11 +80,11 @@ void Board::print() {
 		if (i % 2 == 0) {
 			cout << (i + 2)/2 << char(176);
 			for (int j = 0; j < numOfCols; j++) {
-				if (islower(board[j][(i + 1) / 2])) {
+				if (IsCharLowerA(board[j][(i + 1) / 2])) {
 					SetTextColor(AQUA);
 					cout << board[j][(i + 1) / 2];
 				}
-				else if (isupper(board[j][(i + 1) / 2])) {
+				else if (IsCharUpperA(board[j][(i + 1) / 2])) {
 					SetTextColor(RED);
 					cout << board[j][(i + 1) / 2];
 				}
@@ -371,9 +375,9 @@ int validateBoard(Board &gameBoard) {
 	for (auto type : letters)
 		if (warnings[type]) {
 			hasError = true;
-			if (isupper(type))
+			if (IsCharUpperA(type))
 				cout << "Wrong size or shape for ship " << type << " for player A" << endl;
-			if (islower(type))
+			if (IsCharLowerA(type))
 				cout << "Wrong size or shape for ship " << type << " for player B" << endl;
 
 		}
