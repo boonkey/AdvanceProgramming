@@ -1,5 +1,6 @@
 #include "main.h"
 #include "Naive.cpp"
+#include "FileReaderAlgo.cpp"
 
 
 int main(int argc, char* argv[])
@@ -35,29 +36,34 @@ int main(int argc, char* argv[])
 	SetTextColor(RED);
 	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
 	mainGameBoard.print();
-
-	Naive A;
-	Player B;
-	A.setBoard(0, mainGameBoard.getFullBoard(), 10, 10);
-	A.setSide(true);
-
-	
+	FileReaderAlgo B;
+	FileReaderAlgo A;
+	A.setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
+	B.setBoard(1, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
+	if (!A.init(config.workingDirectory)) {
+		cout << "I inited A like a fool..." << endl;
+		return -1;
+	}
+	if (!B.init(config.workingDirectory)) {
+		cout << "I inited B like a fool..." << endl;
+		return -1;
+	}
 	//move into players
 	//pair<vector<pair<int, int>>, int> A_attacks = A.parseAttackFile(config.attackA);
 	
 	//if( A_attacks.second == 0 )	{ //functions ended as expected
 	//	A.setlistOfAttacks(A_attacks.first);
 	//}
-	pair<vector<pair<int, int>>, int> B_attacks = B.parseAttackFile(config.attackB);
-	if (B_attacks.second == 0) { //functions ended as expected
-		B.setlistOfAttacks(B_attacks.first);
-	}
+	//pair<vector<pair<int, int>>, int> B_attacks = B.parseAttackFile(config.attackB);
+	//if (B_attacks.second == 0) { //functions ended as expected
+	//	B.setlistOfAttacks(B_attacks.first);
+	//}
 
 
-	A.setBoard(0,mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
-	B.setBoard(1,mainGameBoard.getSidedBoard(false), BOARD_SIZE, BOARD_SIZE);
+	//A.setBoard(0,mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
+	
 	//A.nextAttack = A.attack();
-	B.nextAttack = B.listOfAttacks.begin();
+	//A.nextAttack = A.listOfAttacks.begin();
 
 	if ((err = validateBoard(mainGameBoard))) {
 		//cout << "Error: board is not cool" << endl;
@@ -76,18 +82,19 @@ int main(int argc, char* argv[])
 	int scoreA = 0;
 	int scoreB = 0;
 	bool stillPlayingA = true;
-	bool stillPlayingB = false;
-	//if (A.listOfAttacks.size() == 0)
-	//	stillPlayingA = false;
-	if (B.listOfAttacks.size() == 0)
-		stillPlayingB = false;
+	bool stillPlayingB = true;
+	if (A.listOfAttacks.size() == 0)
+		stillPlayingA = false;
+	//if (B.listOfAttacks.size() == 0)
+	//	stillPlayingB = false;
 	bool currentPlayer = true; //true for A , false for B
-	while(true){
+
+	while (true) {
 	NEXT_TURN:
 		//system("pause");
 		//cout << "==============================" << endl;
-		//cout << "A " << scoreA << " playing? " << stillPlayingA << endl;
-		//cout << "B " << scoreB << " playing? " << stillPlayingB << endl;
+		//cout << "A " << scoreA << " playing? " << stillPlayingA << " attack list size: " << A.listOfAttacks.size() << endl;
+	//	cout << "B " << scoreB << " playing? " << stillPlayingB << endl;
 
 		//check if game ended 
 		if (mainGameBoard.gameOver(true) || mainGameBoard.gameOver(false)) {
@@ -112,7 +119,7 @@ int main(int argc, char* argv[])
 				goto NEXT_TURN;
 			}
 			pair<int, int> thisTurnAttack = A.attack();
-			//cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
+		//	cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
 ///////////////////////

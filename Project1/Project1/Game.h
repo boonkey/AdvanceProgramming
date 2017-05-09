@@ -33,6 +33,7 @@ public:
 	Board(int rows, int cols);
 	Board();
 	~Board();
+	void init(int rows, int cols);
 	Board(Board const &) = delete;
 	void operator=(Board const &x) = delete;
 	char get(int col, int row);

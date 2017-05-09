@@ -19,6 +19,7 @@ Board::Board()
 {
 	Board(BOARD_SIZE, BOARD_SIZE);
 }
+
 //destructor
 Board::~Board() {
 	for (int i = 0; i < numOfRows; ++i) {
@@ -27,6 +28,21 @@ Board::~Board() {
 	delete[] board;
 }
 
+
+void Board::init(int rows, int cols) {
+	numOfRows = rows;
+	numOfCols = cols;
+	board = new char*[numOfRows];
+	for (int i = 0; i < numOfCols; ++i) {
+		board[i] = new char[numOfRows];
+	}
+	//init to clear board
+	for (int i = 0; i < numOfRows; ++i) {
+		for (int j = 0; j < numOfCols; ++j) {
+			board[j][i] = ' ';
+		}
+	}
+}
 
 char Board::get(int col, int row) {
 	if (col < 1 || col > BOARD_SIZE || row < 1 || row > BOARD_SIZE)
@@ -288,7 +304,7 @@ int initGame() {
 				//cout << "I found A's attack file: " << file << endl;
 			} else {
 				cout << "Error: more than one attack-a file in path" << endl;
-				return ERR_NUM_OF_ATTACKA;
+				//return ERR_NUM_OF_ATTACKA;
 			}
 		}
 		index = file.find(".attack-b");
@@ -300,7 +316,7 @@ int initGame() {
 				//cout << "I found B's attack file: " << file << endl;
 			} else {
 				cout << "Error: more than one attack-b file in path" << endl;
-				return ERR_NUM_OF_ATTACKB;
+				//return ERR_NUM_OF_ATTACKB;
 			}
 		}
 		index = file.find(".sboard");
@@ -312,22 +328,22 @@ int initGame() {
 				//cout << "I found game board's file: " << file << endl;
 			} else {
 				cout << "Error: more than one sboard file in path" << endl;
-				return ERR_NUM_OF_BOARDS;
+				//return ERR_NUM_OF_BOARDS;
 			}
 		}
 	}
 	int result = 0;
 	if (!gameBoard) {
 		cout << "Missing board file(*.sboard) looking in path : " << config.workingDirectory << endl;
-		result = ERR_MISSING_SBOARD;
+		//result = ERR_MISSING_SBOARD;
 	}
 	if (!attackA) {
 		cout << "Missing attack file for player A (*.attack-a) looking in path: " << config.workingDirectory << endl;
-		result = ERR_MISSING_ATTACKA;
+		//result = ERR_MISSING_ATTACKA;
 	}
 	if (!attackB) {
 		cout << "Missing attack file for player B (*.attack-b) looking in path: " << config.workingDirectory << endl;
-		result = ERR_MISSING_ATTACKB;
+		//result = ERR_MISSING_ATTACKB;
 	}
 	return result;
 }

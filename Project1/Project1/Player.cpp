@@ -3,7 +3,7 @@
 
 	//destructor
 	Player::~Player(){}
-	Player::Player(){}
+	Player::Player(): PlayersBoard() {}
 	pair<vector<pair<int, int>>, int> Player::parseAttackFile(string filename) {
 		vector<pair<int, int>> results;
 		string line;
@@ -28,26 +28,34 @@
 		}
 		else {
 			cout << "Error: Unable to open file" << endl;
+			perror("you suck");
 			return  make_pair(results, -1);
 		}
 	}
 
 //TODO what player argument is for?
 	void Player::setBoard(int player, const char** board, int numRows, int numCols) {
+		PlayersBoard.init(numRows, numCols);
 		isPlayerA = (player == 0);
-		if (player = 0) {
+		if (player == 0) {
 			for (int i = 0; i < numCols; ++i) {
 				for (int j = 0; j < numRows; ++j) {
 					if (IsCharUpperA(board[i][j]))
 						PlayersBoard.set(j + 1, i + 1, board[i][j]);
+					else
+						PlayersBoard.set(j + 1, i + 1, ' ');
 				}
+				
+
 			}
 		}
-		else if (player = 1) {
+		else if (player == 1) {
 			for (int i = 0; i < numCols; ++i) {
 				for (int j = 0; j < numRows; ++j) {
 					if (IsCharLowerA(board[i][j]))
 						PlayersBoard.set(j + 1, i + 1, board[i][j]);
+					else
+						PlayersBoard.set(j + 1, i + 1, ' ');
 				}
 			}
 		}
@@ -85,13 +93,10 @@
 				pair<int, int> attack = *nextAttack;
 				++nextAttack;
 				return attack;
-			} else {
-				haveMoreAttacks = false;
-				return make_pair(-1, -1);	//return last pair
 			}
-		} else{
-			return  make_pair(-1, -1);
 		}
+		haveMoreAttacks = false;
+		return  make_pair(-1, -1);
 	}
 
 	void Player::notifyOnAttackResult(int player, int row, int col, AttackResult result) {

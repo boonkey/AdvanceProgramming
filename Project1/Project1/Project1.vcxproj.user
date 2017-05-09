@@ -5,8 +5,8 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>-delay 600 ../../TestFiles/ex1_tests/T11_Game2 </LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-delay 6 ../../TestFiles/ex1_tests/T11_Game2 </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerAttach>true</LocalDebuggerAttach>
+    <LocalDebuggerAttach>false</LocalDebuggerAttach>
   </PropertyGroup>
 </Project>
