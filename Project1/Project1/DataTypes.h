@@ -14,7 +14,7 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <conio.h>
-
+#include <memory>
 using namespace std;
 
 #define BOARD_SIZE 10

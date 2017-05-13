@@ -23,7 +23,7 @@ public:
 			if (file.find(".attack", file.length() - 7) == file.length() - 7) {
 				int err;
 				if ((err = pathExist((path + "\\" + file))) != ERR_PATH_NOT_FOLDER)
-					cout << "path not here: " << err << endl;
+					cout << "Error: path not here: " << err << endl;
 				attackFiles.push_back((path + "\\" + file));
 			}
 		}

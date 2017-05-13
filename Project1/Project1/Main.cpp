@@ -1,6 +1,7 @@
 #include "main.h"
 #include "Naive.cpp"
 #include "FileReaderAlgo.cpp"
+#include "SmartAlgo.cpp"
 
 
 int main(int argc, char* argv[])
@@ -37,7 +38,7 @@ int main(int argc, char* argv[])
 	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
 	mainGameBoard.print();
 	FileReaderAlgo B;
-	FileReaderAlgo A;
+	SmartAlgo A;
 	A.setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
 	B.setBoard(1, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
 	if (!A.init(config.workingDirectory)) {
@@ -83,11 +84,12 @@ int main(int argc, char* argv[])
 	int scoreB = 0;
 	bool stillPlayingA = true;
 	bool stillPlayingB = true;
-	if (A.listOfAttacks.size() == 0)
-		stillPlayingA = false;
+	//if (A.listOfAttacks.size() == 0)
+		//stillPlayingA = false;
 	//if (B.listOfAttacks.size() == 0)
 	//	stillPlayingB = false;
-	bool currentPlayer = true; //true for A , false for B
+	bool currentPlayer = true; 
+	//true for A , false for B
 
 	while (true) {
 	NEXT_TURN:

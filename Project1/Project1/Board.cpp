@@ -175,7 +175,7 @@ void Board::kaboom(pair<int,int> location) {
 	else {
 		gotoxy(50 + 2 * location.second, -1 + 2 * location.first);
 		SetTextColor(BLUE);
-		cout << char(247);
+		//cout << char(247);
 		HideCursor();
 	}
 	Sleep(config.delay / 4);
