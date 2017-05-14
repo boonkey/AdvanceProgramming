@@ -1,8 +1,7 @@
 #pragma once
-#include "Player.h"
-//#include "DataTypes.h"
-//#include "IBattleshipGameAlgo.h"
+#include "Game.h"
+#include "IBattleshipGameAlgo.h"
 
-Configuration config;
+//#include "Player.h"
 
 typedef IBattleshipGameAlgo*(*GetAlgo)();

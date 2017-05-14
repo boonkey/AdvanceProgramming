@@ -1,8 +1,6 @@
 #include "main.h"
-#include "Naive.cpp"
-#include "FileReaderAlgo.cpp"
-#include "SmartAlgo.cpp"
 
+Configuration config;
 
 LPCSTR getDllPath(bool isA) {
 	HANDLE dir;
@@ -31,7 +29,7 @@ LPCSTR getDllPath(bool isA) {
 }
 
 
-IBattleshipGameAlgo* loadAndInitAlgo(bool isA, Board mainGameBoard) {
+IBattleshipGameAlgo* loadAndInitAlgo(bool isA, Board& mainGameBoard) {
 	// Load dynamic library
 	LPCSTR dllPath = getDllPath(isA);
 	if (!dllPath) {
@@ -49,9 +47,10 @@ IBattleshipGameAlgo* loadAndInitAlgo(bool isA, Board mainGameBoard) {
 	IBattleshipGameAlgo* loadedPlayer = loadedAlgo();
 	// if we get here we can move to init the loaded algo
 	loadedPlayer->setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
-	if(!loadedPlayer->init(config.workingDirectory)){
+	if (!loadedPlayer->init(config.workingDirectory)) {
 		return NULL;	// TODO ADD PRINT FOR ERROR ON INIT
-	return loadedPlayer;
+		return loadedPlayer;
+	}
 }
 
 int main(int argc, char* argv[])
@@ -89,19 +88,21 @@ int main(int argc, char* argv[])
 	
 	mainGameBoard.print();	//TODO delete prints
 
+	IBattleshipGameAlgo* A = loadAndInitAlgo(true , mainGameBoard);
+	IBattleshipGameAlgo* B = loadAndInitAlgo(false, mainGameBoard);
 
-	FileReaderAlgo B;
-	SmartAlgo A;
-	A.setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
-	B.setBoard(1, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
-	if (!A.init(config.workingDirectory)) {
-		cout << "I inited A like a fool..." << endl;
-		return -1;
-	}
-	if (!B.init(config.workingDirectory)) {
-		cout << "I inited B like a fool..." << endl;
-		return -1;
-	}
+	//FileReaderAlgo B;
+	//SmartAlgo A;
+	//A.setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
+	//B.setBoard(1, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
+	//if (!A.init(config.workingDirectory)) {
+	//	cout << "I inited A like a fool..." << endl;
+	//	return -1;
+	//}
+	//if (!B.init(config.workingDirectory)) {
+	//	cout << "I inited B like a fool..." << endl;
+	//	return -1;
+	//}
 	//move into players
 	//pair<vector<pair<int, int>>, int> A_attacks = A.parseAttackFile(config.attackA);
 	
@@ -115,7 +116,7 @@ int main(int argc, char* argv[])
 
 
 	//A.setBoard(0,mainGameBoard.getSidedBoard(true), BOARD_SIZE, BOARD_SIZE);
-	
+	//
 	//A.nextAttack = A.attack();
 	//A.nextAttack = A.listOfAttacks.begin();
 
@@ -125,8 +126,8 @@ int main(int argc, char* argv[])
 		return err;
 	}
 
-	/*mainGameBoard.print();
-	for (auto ship : mainGameBoard.ships)
+	mainGameBoard.print();
+	/*for (auto ship : mainGameBoard.ships)
 		ship.print();
 	*/
 
@@ -173,7 +174,7 @@ int main(int argc, char* argv[])
 				currentPlayer = false; //pass the turn to B
 				goto NEXT_TURN;
 			}
-			pair<int, int> thisTurnAttack = A.attack();
+			pair<int, int> thisTurnAttack = A->attack();
 		//	cout << "PLAYER A: " << thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
@@ -190,8 +191,8 @@ int main(int argc, char* argv[])
 						if (ship.checkAttack(thisTurnAttack)) {	//if hit was made
 							if (ship.checkAlive() == false) { //if ship sunk
 								//let the players know A sank a ship
-								A.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
-								B.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
+								A->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
+								B->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
 								if (ship.isSideA() == false) {	//A sank B's ship and is rewarded
 									scoreA = scoreA + ship.getShipScore();
 									goto NEXT_TURN;	//next turn without changing sides
@@ -202,8 +203,8 @@ int main(int argc, char* argv[])
 								}
 							} else { //hit made but ship did not sank
 								//let the players know A hit a ship
-								A.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
-								B.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
+								A->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
+								B->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
 								//cout << "hit a ship : " << ship.isSideA() << endl;
 								if (!ship.isSideA()) {	//A Hit B's ship and is rewarded
 									currentPlayer = true;
@@ -217,8 +218,8 @@ int main(int argc, char* argv[])
 					}
 					//if we get here then no ship was hit
 					//let the players know A Missed
-					A.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
-					B.notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
+					A->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
+					B->notifyOnAttackResult(0, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
 					currentPlayer = false; //pass the turn to B
 					goto NEXT_TURN;
 				} else {	//invalid attack
@@ -240,7 +241,7 @@ int main(int argc, char* argv[])
 				currentPlayer = true; //pass the turn to A
 				goto NEXT_TURN;
 			}
-			pair<int, int> thisTurnAttack = B.attack();
+			pair<int, int> thisTurnAttack = B->attack();
 		//	cout <<"PLAYER B: "<< thisTurnAttack.first << "," << thisTurnAttack.second << endl;
 ////////////////////////
 			//cout << "attack possition was given by A in <" << thisTurnAttack.first << ", " << thisTurnAttack.second << ">" << endl;
@@ -258,8 +259,8 @@ int main(int argc, char* argv[])
 						if (ship.checkAttack(thisTurnAttack)) {	//if hit was made
 							if (ship.checkAlive() == false) { //if ship sunk
 								//let the players know B sank a ship
-								A.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
-								B.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
+								A->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
+								B->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Sink);
 								if (ship.isSideA() == true) {	//B sank A's ship and is rewarded
 									scoreB = scoreB + ship.getShipScore();
 									goto NEXT_TURN;	//next turn without changing sides
@@ -270,8 +271,8 @@ int main(int argc, char* argv[])
 								}
 							} else { //hit made but ship did not sank
 								//let the players know B hit a ship
-								A.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
-								B.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
+								A->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
+								B->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Hit);
 								if (ship.isSideA() == true) {	//B Hit A's ship and is rewarded
 									goto NEXT_TURN;	//next turn without changing sides
 								} else { //B Hit his own ship
@@ -283,8 +284,8 @@ int main(int argc, char* argv[])
 					}
 					//if we get here then no ship was hit
 					//let the players know B Missed
-					A.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
-					B.notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
+					A->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
+					B->notifyOnAttackResult(1, thisTurnAttack.first, thisTurnAttack.second, AttackResult::Miss);
 					currentPlayer = true; //pass the turn to A
 					goto NEXT_TURN;
 				} else {	//invalid attack

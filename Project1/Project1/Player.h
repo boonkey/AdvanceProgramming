@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "IBattleshipGameAlgo.h"
 
+static std::vector<IBattleshipGameAlgo *> _instancesVec; //Our Algo collection
+
 class Player : public IBattleshipGameAlgo {
 public:
 	Board PlayersBoard;

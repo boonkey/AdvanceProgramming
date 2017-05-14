@@ -1,4 +1,7 @@
 #include "Player.h"
+
+Configuration config;
+
 class Naive : public Player {
 	int row=1, col=0;
 public:
@@ -44,5 +47,6 @@ public:
 };
 
 IBattleshipGameAlgo* GetAlgorithm() {
-	return new Naive();
+	_instancesVec.push_back(new Naive());
+	return _instancesVec[_instancesVec.size() - 1];
 }

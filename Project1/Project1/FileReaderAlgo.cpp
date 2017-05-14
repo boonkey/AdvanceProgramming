@@ -1,5 +1,6 @@
 #include "Player.h"
 
+Configuration config;
 
 //constructor
 class FileReaderAlgo : public Player {
@@ -42,7 +43,7 @@ public:
 		return true;
 	}
 	pair<int, int> FileReaderAlgo::attack() {
-		Player::attack();
+		return Player::attack();
 	}
 	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {
 		//on this exercise notify the player doesnt need to do anythinng. 
@@ -57,5 +58,6 @@ public:
 };
 
 IBattleshipGameAlgo* GetAlgorithm() {
-	return new FileReaderAlgo();
+	_instancesVec.push_back(new FileReaderAlgo());
+	return _instancesVec[_instancesVec.size() - 1];
 }

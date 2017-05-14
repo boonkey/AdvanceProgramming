@@ -1,5 +1,6 @@
 #include "Player.h"
 
+Configuration config;
 
 //probabilty is 1/chance
 #define CONFUSE_CHANCE    4				
@@ -316,5 +317,6 @@ public:
 };
 
 IBattleshipGameAlgo* GetAlgorithm() {
-	return new SmartAlgo();
+	_instancesVec.push_back(new SmartAlgo());
+	return _instancesVec[_instancesVec.size() - 1];
 }
