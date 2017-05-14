@@ -117,6 +117,84 @@ public:
 		return target;
 	}
 
+	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {
+		if (isPlayerA == (player == 0)) { // respond to my own attacks
+			if (result == AttackResult::Miss)
+				misses++;
+
+			if (result == AttackResult::Sink) {
+				if (list == LOW)
+					mergeLow();
+				while (highProb.size()) {
+					if (highProb[0] == make_pair(-1, -1)) {
+						highProb.erase(highProb.begin());
+						break;
+					}
+					highProb.erase(highProb.begin());
+				}
+			}
+
+			if (result == AttackResult::Hit) {
+				if (list == HIGH) {
+					int i = 0;
+					while (i < highProb.size() || highProb[i] == make_pair(-1, -1)) {
+						if (!pairInline(target, highProb[i]))
+							highProb.erase(highProb.begin() + i);
+						else
+							i++;
+					}
+					if (target.first == lastTarget.first) { //ship is horizontal
+						logAttack(target.first - 1, target.second);
+						logAttack(target.first + 1, target.second);
+						if (removeFromNorm(row, col + 1) || removeFromLow(row, col + 1))
+							highProb.insert(highProb.begin(), make_pair(row, col + 1));
+						else
+							removeFromConf(row, col + 1);
+
+						if (removeFromNorm(row, col - 1) || removeFromLow(row, col - 1))
+							highProb.insert(highProb.begin(), make_pair(row, col - 1));
+						else
+							removeFromConf(row, col - 1);
+					} else if (target.second == lastTarget.second) { //ship is vertical
+						logAttack(target.first, target.second + 1);
+						logAttack(target.first, target.second - 1);
+						if (removeFromNorm(row + 1, col) || removeFromLow(row + 1, col))
+							highProb.push_back(make_pair(row + 1, col));
+						else
+							removeFromConf(row + 1, col);
+
+						if (removeFromNorm(row - 1, col) || removeFromLow(row - 1, col))
+							highProb.push_back(make_pair(row - 1, col));
+						else
+							removeFromConf(row - 1, col);
+					}
+					return;
+				}
+				if (list == LOW)
+					mergeLow();
+				lockOnTarget(row, col);
+			}
+		} else { //enemy attacked
+			if (result == AttackResult::Miss) {
+				if (!enemyFools)
+					updateLow(row, col);
+				logAttack(row, col);
+				return;
+			}
+
+			if (PlayersBoard.isShipThere(make_pair(row, col))) {
+				logAttack(row, col);
+				return;
+			}
+
+			//enemy hit his own ship! he might bluff
+			mergeLow();
+			if (result == AttackResult::Hit)
+				lockOnTarget(row, col);
+			if (result == AttackResult::Sink)
+				clearSurrounding(row, col);
+		}
+	}
 
 	bool removeFromHigh(int row, int col) {
 		auto it = find(highProb.begin(), highProb.end(), make_pair(row, col));
@@ -235,86 +313,8 @@ public:
 		return ((a.first == b.first) || (a.second == b.second));
 	}
 
-
-	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {
-		if (isPlayerA == (player == 0)) { // respond to my own attacks
-			if (result == AttackResult::Miss)
-				misses++;
-
-			if (result == AttackResult::Sink) {
-				if (list == LOW)
-					mergeLow();
-				while (highProb.size()) {
-					if (highProb[0] == make_pair(-1, -1)) {
-						highProb.erase(highProb.begin());
-						break;
-					}
-					highProb.erase(highProb.begin());
-				}			
-			}
-
-			if (result == AttackResult::Hit) {
-				if (list == HIGH) {
-					int i = 0;
-					while (i < highProb.size() || highProb[i] == make_pair(-1, -1)) {
-						if (!pairInline(target, highProb[i]))
-							highProb.erase(highProb.begin() + i);
-						else
-							i++;
-					}
-					if (target.first == lastTarget.first) { //ship is horizontal
-						logAttack(target.first - 1, target.second);
-						logAttack(target.first + 1, target.second);
-						if (removeFromNorm(row, col + 1) || removeFromLow(row, col + 1))
-							highProb.insert(highProb.begin(), make_pair(row, col + 1));
-						else
-							removeFromConf(row, col + 1);
-
-						if (removeFromNorm(row, col - 1) || removeFromLow(row, col - 1))
-							highProb.insert(highProb.begin(), make_pair(row, col - 1));
-						else
-							removeFromConf(row, col - 1);
-					}
-					else if (target.second == lastTarget.second) { //ship is vertical
-						logAttack(target.first, target.second + 1);
-						logAttack(target.first, target.second - 1);
-						if (removeFromNorm(row + 1, col) || removeFromLow(row + 1, col))
-							highProb.push_back(make_pair(row + 1, col));
-						else
-							removeFromConf(row + 1, col);
-
-						if (removeFromNorm(row - 1, col) || removeFromLow(row - 1, col))
-							highProb.push_back(make_pair(row - 1, col));
-						else
-							removeFromConf(row - 1, col);
-					}
-					return;
-				}
-				if (list == LOW)
-					mergeLow();
-				lockOnTarget(row, col);
-			}
-		}
-		else { //enemy attacked
-			if (result == AttackResult::Miss){
-				if (!enemyFools)
-					updateLow(row, col);
-				logAttack(row, col);
-				return;
-			}
-
-			if (PlayersBoard.isShipThere(make_pair(row, col))) {
-				logAttack(row, col);
-				return;
-			}
-			
-			//enemy hit his own ship! he might bluff
-			mergeLow();
-			if (result == AttackResult::Hit)
-				lockOnTarget(row, col);
-			if (result == AttackResult::Sink)
-				clearSurrounding(row, col);
-		}
-	}
-
 };
+
+IBattleshipGameAlgo* GetAlgorithm() {
+	return new SmartAlgo();
+}

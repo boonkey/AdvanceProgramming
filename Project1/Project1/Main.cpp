@@ -4,6 +4,56 @@
 #include "SmartAlgo.cpp"
 
 
+LPCSTR getDllPath(bool isA) {
+	HANDLE dir;
+	WIN32_FIND_DATAA fileData; //data struct for file
+	vector<HINSTANCE>::iterator itr;
+
+	string path(config.workingDirectory); //Here you should take actual folder
+
+	string s = "\\*.dll"; // only .dll endings
+	dir = FindFirstFileA((path + s).c_str(), &fileData); // Notice: Unicode compatible version of FindFirstFile
+	if (dir != INVALID_HANDLE_VALUE) //check if the dir opened successfully
+	{
+		if (!isA) {
+			FindNextFileA(dir, &fileData); // Notice: Unicode compatible version of FindNextFile
+										   //cout << "hello B" << endl;
+		}
+		// test each file suffix and set variables as needed
+		string fileName(fileData.cFileName);
+		string fullFileName = path + "\\" + fileName;	// THIS IS THE DLL FILE PATH
+														//string shapeName = fileName.substr(0, fileName.find("."));
+
+		return fullFileName.c_str();
+	} else {
+		return NULL;
+	}
+}
+
+
+IBattleshipGameAlgo* loadAndInitAlgo(bool isA, Board mainGameBoard) {
+	// Load dynamic library
+	LPCSTR dllPath = getDllPath(isA);
+	if (!dllPath) {
+		return NULL;	//TODO: ADD ERROR OF PATH TO DLL NOT FOUND
+	}
+	HINSTANCE dllLib = LoadLibraryA(dllPath);
+	if (!dllLib) {
+		std::cout << "could not load the dynamic library" << std::endl;
+		return NULL;
+	}
+	auto loadedAlgo = (GetAlgo)(GetProcAddress(dllLib, "GetAlgorithm"));
+	if (!loadedAlgo) {
+		return NULL;	//TODO ADD ERROR PRINT IF NEEDED -> failed to get object from the loaded dll
+	}
+	IBattleshipGameAlgo* loadedPlayer = loadedAlgo();
+	// if we get here we can move to init the loaded algo
+	loadedPlayer->setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);
+	if(!loadedPlayer->init(config.workingDirectory)){
+		return NULL;	// TODO ADD PRINT FOR ERROR ON INIT
+	return loadedPlayer;
+}
+
 int main(int argc, char* argv[])
 {
 	system("cls");
@@ -36,7 +86,10 @@ int main(int argc, char* argv[])
 	}
 	SetTextColor(RED);
 	if (mainGameBoard.loadFromFile(config.pathBoard))  return ERR_LOADING_BOARD; //failed to read file
-	mainGameBoard.print();
+	
+	mainGameBoard.print();	//TODO delete prints
+
+
 	FileReaderAlgo B;
 	SmartAlgo A;
 	A.setBoard(0, mainGameBoard.getFullBoard(), BOARD_SIZE, BOARD_SIZE);

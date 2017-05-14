@@ -6,6 +6,12 @@ public:
 	//destructor
 	Naive::~Naive() {}
 
+	void Naive::setBoard(int player, const char** board, int numRows, int numCols) {
+		Player::setBoard(player, board, numRows, numCols);
+	}
+	bool Naive::init(const std::string & path) override {
+		return true;
+	}
 	//return next attack in the vector and advance the iterator
 	pair<int, int> Naive::attack() {
 		col++;
@@ -35,11 +41,8 @@ public:
 		return;
 	}
 
-
-
-	bool Naive::init(const std::string & path) override
-	{
-		return true;
-	}
-
 };
+
+IBattleshipGameAlgo* GetAlgorithm() {
+	return new Naive();
+}

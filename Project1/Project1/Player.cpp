@@ -33,7 +33,6 @@
 		}
 	}
 
-//TODO what player argument is for?
 	void Player::setBoard(int player, const char** board, int numRows, int numCols) {
 		PlayersBoard.init(numRows, numCols);
 		isPlayerA = (player == 0);

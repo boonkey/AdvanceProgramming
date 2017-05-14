@@ -5,18 +5,12 @@
 class FileReaderAlgo : public Player {
 public:
 	//destructor
-		//TODO what player argument is for?
-	void setSide(bool sideA) {
-		isPlayerA = sideA;
-	}
+	FileReaderAlgo::~FileReaderAlgo() {}
 
-	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {
-		//on this exercise notify the player doesnt need to do anythinng. 
-		return;
+	void FileReaderAlgo::setBoard(int player, const char** board, int numRows, int numCols) {
+		Player::setBoard(player, board, numRows, numCols);
 	}
-
-	bool init(const std::string & path)
-	{
+	bool init(const std::string & path) {
 		vector<string> files = get_all_files_names_within_folder(path);
 		vector<string> attackFiles;
 		for (auto file : files) {
@@ -47,7 +41,21 @@ public:
 		nextAttack = listOfAttacks.begin();
 		return true;
 	}
+	pair<int, int> FileReaderAlgo::attack() {
+		Player::attack();
+	}
+	void notifyOnAttackResult(int player, int row, int col, AttackResult result) {
+		//on this exercise notify the player doesnt need to do anythinng. 
+		return;
+	}
 
 	
-	//TODO implement this method
+	void setSide(bool sideA) {
+		isPlayerA = sideA;
+	}
+
 };
+
+IBattleshipGameAlgo* GetAlgorithm() {
+	return new FileReaderAlgo();
+}
