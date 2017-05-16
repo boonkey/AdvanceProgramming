@@ -1,0 +1,6 @@
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ex2.shukrun.dir
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ex2.shukrun.naive.dir
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ex2.shukrun.file.dir
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ex2.shukrun.smart.dir
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ALL_BUILD.dir
+C:/Users/dansh/Dropbox/לימודים/AdvanceProgramming/output_dan/CMakeFiles/ZERO_CHECK.dir
