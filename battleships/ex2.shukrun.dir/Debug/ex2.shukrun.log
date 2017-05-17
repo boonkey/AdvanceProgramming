@@ -1,0 +1,7 @@
+﻿  Building Custom Rule D:/battleships/src_files/CMakeLists.txt
+  CMake does not need to re-run because D:/battleships/CMakeFiles/generate.stamp is up-to-date.
+  Board.cpp
+  Main.cpp
+  Ship.cpp
+  Generating Code...
+  ex2.shukrun.vcxproj -> D:\battleships\Debug\shukrun.exe
