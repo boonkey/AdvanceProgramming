@@ -1,15 +1,12 @@
-﻿  Board.cpp
-  SmartAlgo.cpp
-SmartAlgo.cpp(76): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  FileReaderAlgo.cpp
-  Naive.cpp
-  Player.cpp
-  Main.cpp
-c:\users\dansh\dropbox\לימודים\advanceprogramming\project1\project1\SmartAlgo.cpp(76): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Ship.cpp
-  Utils.cpp
-  Generating code
-  All 1777 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\x64\Release\Project1.exe
-  Project1.vcxproj -> C:\Users\dansh\Dropbox\לימודים\AdvanceProgramming\Project1\x64\Release\Project1.pdb (Full PDB)
+﻿  Main.cpp
+e:\eeprojworkspace\advanceprogramming\project1\project1\Naive.cpp(49): warning C4273: 'GetAlgorithm': inconsistent dll linkage
+  e:\eeprojworkspace\advanceprogramming\project1\project1\IBattleshipGameAlgo.h(25): note: see previous definition of 'GetAlgorithm'
+e:\eeprojworkspace\advanceprogramming\project1\project1\FileReaderAlgo.cpp(3): error C2086: 'Configuration config': redefinition
+  e:\eeprojworkspace\advanceprogramming\project1\project1\Naive.cpp(3): note: see declaration of 'config'
+e:\eeprojworkspace\advanceprogramming\project1\project1\FileReaderAlgo.cpp(60): error C2084: function 'IBattleshipGameAlgo *GetAlgorithm(void)' already has a body
+  e:\eeprojworkspace\advanceprogramming\project1\project1\Naive.cpp(49): note: see previous definition of 'GetAlgorithm'
+e:\eeprojworkspace\advanceprogramming\project1\project1\SmartAlgo.cpp(3): error C2086: 'Configuration config': redefinition
+  e:\eeprojworkspace\advanceprogramming\project1\project1\Naive.cpp(3): note: see declaration of 'config'
+e:\eeprojworkspace\advanceprogramming\project1\project1\SmartAlgo.cpp(77): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+Main.cpp(6): error C2086: 'Configuration config': redefinition
+  e:\eeprojworkspace\advanceprogramming\project1\project1\Naive.cpp(3): note: see declaration of 'config'

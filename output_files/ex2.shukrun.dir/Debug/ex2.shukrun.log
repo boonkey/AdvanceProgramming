@@ -1,0 +1,8 @@
+﻿  Building Custom Rule C:/Users/Tomer/Desktop/src_files/CMakeLists.txt
+  CMake does not need to re-run because C:/Users/Tomer/Desktop/output_files/CMakeFiles/generate.stamp is up-to-date.
+  Board.cpp
+  Main.cpp
+  Ship.cpp
+  Generating Code...
+c:\users\tomer\desktop\src_files\main.cpp(54): warning C4715: 'loadAndInitAlgo': not all control paths return a value
+  ex2.shukrun.vcxproj -> C:\Users\Tomer\Desktop\output_files\Debug\shukrun.exe

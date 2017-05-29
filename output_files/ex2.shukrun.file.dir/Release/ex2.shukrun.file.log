@@ -1,0 +1,2 @@
+﻿C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ZERO_CHECK.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(403,5): error MSB3191: Unable to create directory "C:\Users\Tomer\Desktop\output_files\Release\". Access to the path 'C:\Users\Tomer\Desktop\output_files\Release\' is denied.

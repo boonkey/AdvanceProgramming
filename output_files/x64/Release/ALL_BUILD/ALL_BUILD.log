@@ -1,0 +1,6 @@
+﻿C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ZERO_CHECK.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ex2.shukrun.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ex2.shukrun.file.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ex2.shukrun.naive.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'C:\Users\Tomer\Desktop\output_files\ex2.shukrun.smart.vcxproj' does not exist.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "C:\Users\Tomer\Desktop\output_files\CMakeFiles\". Access to the path 'C:\Users\Tomer\Desktop\output_files\CMakeFiles\' is denied.

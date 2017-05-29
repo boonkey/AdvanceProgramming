@@ -1,0 +1,9 @@
+﻿  Building Custom Rule C:/Users/Tomer/Desktop/src_files/CMakeLists.txt
+  CMake does not need to re-run because C:/Users/Tomer/Desktop/output_files/CMakeFiles/generate.stamp is up-to-date.
+  FileReaderAlgo.cpp
+  Board.cpp
+  Player.cpp
+  Ship.cpp
+  Generating Code...
+     Creating library C:/Users/Tomer/Desktop/output_files/Debug/shukrun.file.lib and object C:/Users/Tomer/Desktop/output_files/Debug/shukrun.file.exp
+  ex2.shukrun.file.vcxproj -> C:\Users\Tomer\Desktop\output_files\Debug\shukrun.file.dll

@@ -1,0 +1,6 @@
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ex2.shukrun.dir
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ex2.shukrun.naive.dir
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ex2.shukrun.file.dir
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ex2.shukrun.smart.dir
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ALL_BUILD.dir
+C:/Users/Tomer/Desktop/output_files/CMakeFiles/ZERO_CHECK.dir

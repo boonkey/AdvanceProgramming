@@ -1,0 +1,19 @@
+﻿  Building Custom Rule D:/battleships/src_files/CMakeLists.txt
+  CMake does not need to re-run because D:/battleships/CMakeFiles/generate.stamp is up-to-date.
+  SmartAlgo.cpp
+D:\battleships\src_files\SmartAlgo.cpp(69): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Board.cpp
+D:\battleships\src_files\Board.cpp(199): error C2664: 'DWORD GetModuleFileNameW(HMODULE,LPWSTR,DWORD)': cannot convert argument 2 from 'char [260]' to 'LPWSTR'
+  D:\battleships\src_files\Board.cpp(199): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+D:\battleships\src_files\Board.cpp(272): error C2664: 'HANDLE FindFirstFileW(LPCWSTR,LPWIN32_FIND_DATAW)': cannot convert argument 1 from 'const char *' to 'LPCWSTR'
+  D:\battleships\src_files\Board.cpp(272): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+D:\battleships\src_files\Board.cpp(278): error C2664: 'void std::vector<std::string,std::allocator<_Ty>>::push_back(const std::basic_string<char,std::char_traits<char>,std::allocator<char>> &)': cannot convert argument 1 from 'WCHAR [260]' to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&'
+          with
+          [
+              _Ty=std::string
+          ]
+  D:\battleships\src_files\Board.cpp(278): note: Reason: cannot convert from 'WCHAR [260]' to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+  D:\battleships\src_files\Board.cpp(278): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  Player.cpp
+  Ship.cpp
+  Generating Code...

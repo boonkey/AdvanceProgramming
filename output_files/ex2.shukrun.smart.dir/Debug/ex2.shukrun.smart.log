@@ -1,0 +1,10 @@
+﻿  Building Custom Rule C:/Users/Tomer/Desktop/src_files/CMakeLists.txt
+  CMake does not need to re-run because C:/Users/Tomer/Desktop/output_files/CMakeFiles/generate.stamp is up-to-date.
+  SmartAlgo.cpp
+C:\Users\Tomer\Desktop\src_files\SmartAlgo.cpp(77): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Board.cpp
+  Player.cpp
+  Ship.cpp
+  Generating Code...
+     Creating library C:/Users/Tomer/Desktop/output_files/Debug/shukrun.smart.lib and object C:/Users/Tomer/Desktop/output_files/Debug/shukrun.smart.exp
+  ex2.shukrun.smart.vcxproj -> C:\Users\Tomer\Desktop\output_files\Debug\shukrun.smart.dll

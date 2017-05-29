@@ -1,0 +1,9 @@
+﻿  Building Custom Rule D:/battleships/src_files/CMakeLists.txt
+  CMake does not need to re-run because D:/battleships/CMakeFiles/generate.stamp is up-to-date.
+  Naive.cpp
+  Board.cpp
+  Player.cpp
+  Ship.cpp
+  Generating Code...
+     Creating library D:/battleships/Debug/shukrun.naive.lib and object D:/battleships/Debug/shukrun.naive.exp
+  ex2.shukrun.naive.vcxproj -> D:\battleships\Debug\shukrun.naive.dll
